@@ -33,24 +33,34 @@ def process_line(line: str, strip_punc: bool) -> str:
             i += 1
     return line
 
-if __name__ == "__main__":
+def skip_to_chapter(f, chapter: int):
+    while True:
+        line = f.readline()
+        if line == f"{to_roman(chapter)}\n":
+            break
 
+def split_chapters(start_chapter: int, end_chapter: int):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    num = 0
-
-    for i in range(0, 21, 1):
-        open(f"raw/chapter{num}.txt", "w", encoding="utf-8-sig").close()
-        open(f"stripped/chapter{num}.txt", "w", encoding="utf-8-sig").close()
+    num = start_chapter
+    for i in range(start_chapter, end_chapter + 1, 1):
+        open(f"raw/chapter{i}.txt", "w", encoding="utf-8-sig").close()
+        open(f"stripped/chapter{i}.txt", "w", encoding="utf-8-sig").close()
 
     with open("content.txt", 'r', encoding="utf-8-sig") as f:
-        while (num < 21):
+
+        skip_to_chapter(f, start_chapter)
+
+        while (num < end_chapter + 1):
             with open(f"raw/chapter{num}.txt", "a", encoding="utf-8-sig") as f2:
                 with open(f"stripped/chapter{num}.txt", "a", encoding="utf-8-sig") as f3:
                     line = f.readline()
-                    if line == '':
+                    if line == '' or line == "CONCLUJON\n":
                         break
                     if line == f"{to_roman(num + 1)}\n":
                         num += 1
                     else:
                         f2.write(process_line(line, False))
                         f3.write(process_line(line, True))
+
+if __name__ == "__main__":
+    split_chapters(20, 33)

@@ -1,5 +1,8 @@
 """ counts the number of words in parentheses in context.txt and also outputs them
 """
+
+import os
+
 def process_line(line: str) -> int:
     line_lst = line.split("(")
     count = 0
@@ -11,7 +14,8 @@ def process_line(line: str) -> int:
         all_words += words
     return count, all_words
 
-if __name__ == "__main__":
+def count_words() -> tuple[int, list[str]]:
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     count = 0
     all_words = []
     with open("content.txt", "r", encoding="utf-8-sig") as f:
@@ -21,5 +25,9 @@ if __name__ == "__main__":
             count += processed[0]
             all_words += processed[1]
             line = f.readline()
-    print(all_words)
-    print(count)
+    return count, all_words
+
+if __name__ == "__main__":
+    result = count_words()
+    print(result[1])
+    print(result[0])
