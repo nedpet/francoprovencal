@@ -1,0 +1,205 @@
+define V    [ a | e | i | o | u | é | ê | â | ô | œ | ä ] ;
+
+define C    [ b | c | ç | d | f | g | h | j | k | m | n | p | q | r | s | t | v | x | z ] ;
+
+# -------------- BASIC CONSONANT CONVERSIONS --------------
+
+# 'gn' -> /ɲ/
+define GN       g n -> ɲ ;
+
+# 'qu' -> /k/
+define QU       q u -> k ;
+
+# 'rr' -> /r/ (placeholder), 'r' -> /ʁ/, fix placeholder -> /r/
+define RR       r r -> R ;
+
+define uvularR  r -> ʁ ;
+
+define fixR     R -> r ;
+
+# 'cll' -> /kʎ/
+define CLL      c l l -> kʎ ;
+
+# 'gll' -> /gʎ/
+define GLL      g l l -> gʎ ;
+
+# 'fll' -> /fʎ/
+define FLL      f l l -> fʎ ;
+
+# 'll' -> /lj/
+define LL       l l -> lj ;
+
+# 'ch' -> /ʃ/
+define CH       c h -> ʃ ;
+
+# 'j' -> /ʒ/
+define J        j -> ʒ ;
+
+# 'ç' -> /s/
+define cedilleC ç -> s ;
+
+# 'ss' -> /s/ (placeholder)
+define SS       s s -> S ;
+
+# 'tch' -> /t͡ʃ/
+define TCH      t c h -> t͡ʃ ;
+
+# 'h' -> /∅/
+define silentH  h -> 0 ;
+
+# -------------- BASIC VOWEL CONVERSIONS --------------
+
+# 'é' -> /e/ (placeholder)
+define aiguE    é -> E ;
+
+# 'e' -> /ɛ/ SOMETIMES??
+define regE     e -> ɛ ;
+
+# fix placeholder -> /e/
+define fixE     E -> e ;
+
+# 'o' -> /ɔ/ SOMETIMES??
+define regO     o -> ɔ ;
+
+# 'u' -> /y/
+define regU     u -> y ;
+
+# 'oue' -> /u/ (placeholder)
+define OUE      o u e -> U ;
+
+# 'ou' -> /u/ (placeholder)
+define OU       o u -> U ;
+
+# fix placeholder -> /u/
+define fixU     U -> u ;
+
+# 'ê' -> /ɛ/
+define circE    ê -> ɛ ;
+
+# 'â' -> /a/
+define circA    â -> a ;
+
+# 'ô' -> /o/ (placeholder)
+define circO    ô -> O ;
+
+# fix placeholder -> /o/
+define fixO     O -> o ;
+
+# 'oe' -> /ø/
+define OE       o e -> ø ;
+
+# 'in' -> /ĩ/
+define IN       i n -> ĩ ;
+
+# 'en' -> /ɛ̃/
+define EN       e n -> ẽ ;
+
+# 'on' -> /õ/
+define ON       o n -> õ ;
+
+# 'an' -> /ã/
+define AN       a n -> ã ;
+
+# 'un' -> /œ̃/
+define UN       u n -> œ̃ ;
+
+# 'eu' -> /ə/
+define EU       e u -> ə ;
+
+# 'ä' -> /a/
+define umlautA  ä -> a ;
+
+# 'ei' -> /ej/
+define EI       e i -> ej ;
+
+# 'ay' -> /aj/
+define AY       a y -> aj ;
+
+# 'si' / 'ci' -> /ʃ/
+define SI       [ s i | c i ] -> ʃ ;
+
+# 'zi' -> /ʒ/
+define ZI       z i -> ʒ ;
+
+# -------------- CONSONANT RULES --------------
+
+# 't' -> /∅/ word-finally SOMETIMES??
+define finalT       t -> 0 || _ .#. ;
+
+# 'v' -> /∅/ in 'ave'
+define AVE          v -> 0 || a _ e ;
+
+# 'z' -> /∅/ word-finally
+define finalZ       z -> 0 || _ .#. ;
+
+# 's' -> /∅/ word-finally
+define finalS       s -> 0 || _ .#. ;
+
+# fix placeholder -> /s/
+define fixS         S -> s ;
+
+# 's' -> /z/ intervocalically
+define intervocalS  s -> z || V _ V ;
+
+# 'r' -> /∅/ intervocalically I DONT THINK THIS RULE IS REAL AND TRUE
+# define intervocalR  r -> 0 || V _ V ;
+
+# 'c' -> /s/ (placeholder) before i, e
+define softC        c -> S || _ [ e | i ] ;
+
+# 'c' -> /k/ elsewhere
+define hardC        c -> k ;
+
+# 'g' -> /ʒ/ before i, e
+define softG        g -> ʒ || _ [ e | i ] ;
+
+# 'gu' -> /g/ before i, e
+define GU           g u -> g || _ [ e | i ] ;
+
+# 'x' -> /ks/ intervocalically
+define intervocalX  x -> k s || V _ V ;
+
+# 'x' -> /s/ before a consonant
+define elsewhereX   x -> s || _ C ;
+
+# -------------- VOWEL RULES --------------
+
+# 'i' -> /j/ before a vowel
+define prevowelI    i -> j || _ V ;
+
+# 'u' -> /ɥ/ before a vowel
+define prevowelU    u -> ɥ || _ V ;
+
+# 'ou' -> /w/ before a vowel
+define prevowelOU   o u -> w || _ V ;
+
+# 'o' -> /∅/ in -TRO
+define TRO          o -> 0 || t r _ .#. ;
+
+# 'e' -> /ə/ word-finally SOMETIMES
+define finalE       e -> ə || _ .#. ;
+
+# -------------- G2P --------------
+
+define G2P TCH .o.
+    CLL .o. GLL .o. FLL .o.
+    GN .o. GU .o. QU .o.
+    RR .o. uvularR .o. fixR .o.
+    SS .o. softC .o. intervocalS .o. finalS .o. fixS .o.
+    CH .o. LL .o.
+    OUE .o. OU .o. prevowelOU .o.
+    UN .o. IN .o. AN .o. ON .o. EN .o.
+    EU .o. OE .o. EI .o. AY .o.
+    SI .o. ZI .o.
+    intervocalX .o. elsewhereX .o.
+    softG .o. hardC .o.
+    finalT .o. finalZ .o. TRO .o. AVE .o.
+    J .o. cedilleC .o. silentH .o.
+    circE .o. circA .o. circO .o. umlautA .o.
+    aiguE .o.
+    prevowelI .o. prevowelU .o.
+    finalE .o.
+    regE .o. regO .o. regU .o.
+    fixU .o. fixO .o. fixE ;
+
+regex G2P ;
