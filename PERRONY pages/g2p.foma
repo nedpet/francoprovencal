@@ -26,8 +26,11 @@ define GLL      g l l -> gʎ ;
 # 'fll' -> /fʎ/
 define FLL      f l l -> fʎ ;
 
-# 'll' -> /lj/
-define LL       l l -> lj ;
+# 'ill' -> /ʎ/
+define ILL      i l l -> ʎ ;
+
+# 'll' -> /l/
+define LL       l l -> l ;
 
 # 'ch' -> /ʃ/
 define CH       c h -> ʃ ;
@@ -88,6 +91,9 @@ define fixO     O -> o ;
 # 'oe' -> /ø/
 define OE       o e -> ø ;
 
+# 'à' -> /a/
+define graveA   à -> a ;
+
 # 'in' -> /ĩ/
 define IN       i n -> ĩ ;
 
@@ -105,6 +111,9 @@ define UN       u n -> œ̃ ;
 
 # 'eu' -> /ə/
 define EU       e u -> ə ;
+
+# 'eun' -> /ə̃/
+define EUN       e u n -> ə̃ ;
 
 # 'ä' -> /a/
 define umlautA  ä -> aː ;
@@ -176,8 +185,14 @@ define prevowelOU   o u -> w || _ V ;
 # 'o' -> /∅/ in -TRO
 define TRO          o -> 0 || t r _ .#. ;
 
-# 'et' -> /ɛ/ word-finally
-define ET           e t -> ɛ || _ .#. ;
+# 'tel' -> /ti/ word-finally
+define TEL           t e l -> ti || _ .#. ;
+
+# 'et' -> /ɛtː/ word-finally
+define ET           e t -> ɛ Tː || _ .#. ;
+
+# fix placeholder -> /t/
+define fixT         Tː -> tː ;
 
 # 'e' -> /ə/ word-finally SOMETIMES
 define finalE       e -> ə || _ .#. ;
@@ -185,21 +200,21 @@ define finalE       e -> ə || _ .#. ;
 # -------------- G2P --------------
 
 define G2P TCH .o.
-    CLL .o. GLL .o. FLL .o.
-    GN .o. GU .o. QU .o.
+    CLL .o. GLL .o. FLL .o. ILL .o.
+    GN .o. GU .o. QU .o. TRO .o. 
     RR .o. uvularR .o. fixR .o.
     SS .o. softC .o. intervocalS .o. finalS .o. fixS .o.
     CH .o. LL .o.
-    OUE .o. OU .o. prevowelOU .o.
-    UN .o. IN .o. AN .o. ON .o. EN .o.
+    prevowelOU .o. OU .o.
+    EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o.
     EU .o. OE .o. EI .o. AY .o.
     SI .o. ZI .o.
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
-    ET .o. finalT .o. finalZ .o. TRO .o. AVE .o.
+    TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. AVE .o.
     J .o. cedilleC .o. silentH .o.
     circE .o. circA .o. circO .o. umlautA .o.
-    aiguE .o.
+    aiguE .o. graveA .o.
     prevowelI .o. prevowelU .o.
     finalE .o. 
     regE .o. regO .o. regU .o.
