@@ -59,7 +59,7 @@ define regE     e -> ɛ ;
 define fixE     E -> e ;
 
 # 'o' -> /ɔ/ SOMETIMES??
-define regO     o -> ɔ ;
+define regO     o -> o ;
 
 # 'u' -> /y/
 define regU     u -> y ;
@@ -92,7 +92,7 @@ define OE       o e -> ø ;
 define IN       i n -> ĩ ;
 
 # 'en' -> /ɛ̃/
-define EN       e n -> ẽ ;
+define EN       e n -> ɛ̃ ;
 
 # 'on' -> /õ/
 define ON       o n -> õ ;
@@ -107,7 +107,7 @@ define UN       u n -> œ̃ ;
 define EU       e u -> ə ;
 
 # 'ä' -> /a/
-define umlautA  ä -> a ;
+define umlautA  ä -> aː ;
 
 # 'ei' -> /ej/
 define EI       e i -> ej ;
@@ -127,7 +127,7 @@ define ZI       z i -> ʒ ;
 define finalT       t -> 0 || _ .#. ;
 
 # 'v' -> /∅/ in 'ave'
-define AVE          v -> 0 || a _ e ;
+define AVE          v -> v || a _ e ;
 
 # 'z' -> /∅/ word-finally
 define finalZ       z -> 0 || _ .#. ;
@@ -176,6 +176,9 @@ define prevowelOU   o u -> w || _ V ;
 # 'o' -> /∅/ in -TRO
 define TRO          o -> 0 || t r _ .#. ;
 
+# 'et' -> /ɛ/ word-finally
+define ET           e t -> ɛ || _ .#. ;
+
 # 'e' -> /ə/ word-finally SOMETIMES
 define finalE       e -> ə || _ .#. ;
 
@@ -193,12 +196,12 @@ define G2P TCH .o.
     SI .o. ZI .o.
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
-    finalT .o. finalZ .o. TRO .o. AVE .o.
+    ET .o. finalT .o. finalZ .o. TRO .o. AVE .o.
     J .o. cedilleC .o. silentH .o.
     circE .o. circA .o. circO .o. umlautA .o.
     aiguE .o.
     prevowelI .o. prevowelU .o.
-    finalE .o.
+    finalE .o. 
     regE .o. regO .o. regU .o.
     fixU .o. fixO .o. fixE ;
 
