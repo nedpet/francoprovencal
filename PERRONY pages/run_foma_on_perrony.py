@@ -1,26 +1,48 @@
-import foma
+#!/home/nedpet/foma-env/bin/python
+
+from foma import FST
 import os
+import subprocess
 
-def process_line(line: str) -> int:
-    f = foma.FST.load('g2p.foma')
-    line = "".join(char for char in line if char.isalpha() or char == ' ')
-    line_lst = line.split(" ")
-    all_words = []
+def preserve_parentheses(line: str) -> str:
+    i = 0
+    while i < len(line):
+        if line[i] == '(':
+            j = i
+            while j < len(line) and line[j] != ')':
+                if line[j] == ' ':
+                    line = line[:j] + "+" + line[j+1:]
+                j += 1
+            i = j
+        i += 1
+    return line
+
+def process_line(line: str, f: FST) -> str:
+    line = "".join(char.lower() for char in line if char.isalnum() or char in [' ', '(', ')'])
+    line = preserve_parentheses(line)
+
+    line_lst = [word for word in line.split(" ") if word != '']
+    new_line = ""
     for word in line_lst:
-        all_words.append(f.apply_down(word))
-    return all_words
+        if word[0] == '(' and word[-1] == ')':
+            new_line += " " + word
+        elif word.isnumeric():
+            new_line += " " + word
+        else:
+            new_line += " " + "".join(f.apply_down(word))
+    return new_line.replace("+", " ") + "\n"
 
-def count_words() -> tuple[int, int]:
+def foma_words():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    all_words = []
+    subprocess.run(['foma', '-e', 'source g2p.foma', '-e', 'save stack g2p.fomabin', '-e', 'quit'])
+    fst = FST.load('g2p.fomabin')
     with open("content.txt", "r", encoding="utf-8-sig") as f:
-        line = f.readline()
-        while (line != ""):
-            all_words += process_line(line)
+        with open("content_ipa.txt", "w", encoding="utf-8-sig") as f2:
             line = f.readline()
-    return count, correct_count
+            while (line != ""):
+                f2.write(process_line(line, fst))
+                line = f.readline()
 
 if __name__ == "__main__":
-    result = count_words()
-    print(result[0])
-    print(result[1])
+    result = foma_words()
+    
