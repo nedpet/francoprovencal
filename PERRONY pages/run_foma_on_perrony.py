@@ -1,5 +1,3 @@
-#!/home/nedpet/foma-env/bin/python
-
 from foma import FST
 import os
 import subprocess
