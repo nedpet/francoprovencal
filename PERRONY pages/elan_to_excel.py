@@ -60,7 +60,7 @@ def extract_min(words, adriana, eliana, silas, fst: FST) -> str:
     line += '\t'
 
     if do_foma:
-        line += "".join(fst.apply_down(word))
+        line += "".join(fst.apply_down(word.lower()))
     
     return line + '\n'
 
