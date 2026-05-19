@@ -28,41 +28,33 @@ def find_index(env: str) -> tuple[int, int]:
     i = 1
     with open("content_ipa.txt", "r", encoding="utf-8-sig") as f:
         line = f.readline()
-        while (f != ""):
+        while (line != ""):
             if env in line:
-                line_lst = line.split(" ")
-                j = 0
-                while not env in line_lst[j]:
-                    j += 1
-                return (i, j)
+                return i
             i += 1
             line = f.readline()
-    return (-1, -1)
+    return -1
 
-def find_context(env: str) -> tuple[str, str]:
+def find_context(env: str) -> str:
     index = find_index(env)
-    if index[0] == -1:
-        return "err", "err"
     with open("content.txt", "r", encoding="utf-8-sig") as f:
-        for _ in range(index[0]):
+        for _ in range(index):
             line = f.readline()
-        line_lst = line.split(" ")
-        word = line_lst[index[1] - 1]
-    return word, line
+    return line
 
 def min_pairs(pairs):
     first_phone = input("First phone: ")
     second_phone = input("Second phone: ")
     if second_phone in pairs[first_phone]:
-        print(f"Minimal pair found: {pairs[first_phone][second_phone]}")
+        print(f"Minimal pair found: {pairs[first_phone][second_phone]}\n")
     else:
-        print("No minimal pairs")
+        print("No minimal pairs\n")
 
 def find_envir():
     envir = input("The environment: ")
     envir = envir.replace("#", " ")
     result = find_context(envir)
-    print(f"The word is {result[0]}, found in: {result[1]}")
+    print(f"The word is found in {result}\n")
 
 def run():
 

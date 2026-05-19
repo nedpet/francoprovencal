@@ -15,6 +15,7 @@ def preserve_parentheses(line: str) -> str:
         i += 1
     return line
 
+
 def process_line(line: str, f: FST) -> str:
     line = "".join(char.lower() for char in line if char.isalnum() or char in [' ', '(', ')'])
     line = preserve_parentheses(line)
@@ -30,17 +31,18 @@ def process_line(line: str, f: FST) -> str:
             new_line += " " + "".join(f.apply_down(word))
     return new_line.replace("+", " ") + "\n"
 
-def foma_words():
+def foma_words(input_file: str, output_file: str):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     subprocess.run(['foma', '-e', 'source g2p.foma', '-e', 'save stack g2p.fomabin', '-e', 'quit'])
     fst = FST.load('g2p.fomabin')
-    with open("content.txt", "r", encoding="utf-8-sig") as f:
-        with open("content_ipa.txt", "w", encoding="utf-8-sig") as f2:
+    with open(input_file, "r", encoding="utf-8-sig") as f:
+        with open(output_file, "w", encoding="utf-8-sig") as f2:
             line = f.readline()
             while (line != ""):
                 f2.write(process_line(line, fst))
                 line = f.readline()
 
 if __name__ == "__main__":
-    result = foma_words()
+    # result = foma_words("content.txt", "content_ipa.txt")
+    result = foma_words("chapter10.txt", "chapter10ipa.txt")
     
