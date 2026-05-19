@@ -2,159 +2,10 @@ define V    [ a | e | i | o | u | é | ê | â | ô | œ | ä ] ;
 
 define C    [ b | c | ç | d | f | g | h | j | k | m | n | p | q | r | s | t | v | x | z ] ;
 
-# -------------- BASIC CONSONANT CONVERSIONS --------------
+# -------------- CONSONANTS --------------
 
-# 'gn' -> /ɲ/
-define GN       g n -> ɲ ;
-
-# 'qu' -> /k/
-define QU       q u -> k ;
-
-# 'rr' -> /r/ (placeholder), 'r' -> /ʁ/, fix placeholder -> /r/
-define RR       r r -> R ;
-
-define uvularR  r -> ʁ ;
-
-define fixR     R -> r ;
-
-# 'cll' -> /kʎ/
-define CLL      c l l -> kʎ ;
-
-# 'gll' -> /gʎ/
-define GLL      g l l -> gʎ ;
-
-# 'fll' -> /fʎ/
-define FLL      f l l -> fʎ ;
-
-# 'ill' -> /ʎ/
-define ILL      i l l -> ʎ ;
-
-# 'll' -> /l/
-define LL       l l -> l ;
-
-# 'ch' -> /ʃ/
-define CH       c h -> ʃ ;
-
-# 'j' -> /ʒ/
-define J        j -> ʒ ;
-
-# 'ç' -> /s/
-define cedilleC ç -> s ;
-
-# 'ss' -> /s/ (placeholder)
-define SS       s s -> S ;
-
-# 'tch' -> /t͡ʃ/
-define TCH      t c h -> t͡ʃ ;
-
-# 'h' -> /∅/
-define silentH  h -> 0 ;
-
-# -------------- BASIC VOWEL CONVERSIONS --------------
-
-# 'é' -> /e/ (placeholder)
-define aiguE    é -> E ;
-
-# 'e' -> /ɛ/ SOMETIMES??
-define regE     e -> ɛ ;
-
-# fix placeholder -> /e/
-define fixE     E -> e ;
-
-# 'o' -> /ɔ/ SOMETIMES??
-define regO     o -> o ;
-
-# 'u' -> /y/
-define regU     u -> y ;
-
-# 'y' -> /j/
-define regY     y -> j ;
-
-# 'oue' -> /u/ (placeholder)
-define OUE      o u e -> U ;
-
-# 'ou' -> /u/ (placeholder)
-define OU       o u -> U ;
-
-# fix placeholder -> /u/
-define fixU     U -> u ;
-
-# 'ê' -> /ɛ/
-define circE    ê -> ɛ ;
-
-# 'â' -> /a/
-define circA    â -> a ;
-
-# 'ô' -> /o/ (placeholder)
-define circO    ô -> O ;
-
-# fix placeholder -> /o/
-define fixO     O -> o ;
-
-# 'oe' -> /ø/
-define OE       o e -> ø ;
-
-# 'à' -> /a/
-define graveA   à -> a ;
-
-# 'in' -> /ĩ/
-define IN       i n -> ĩ ;
-
-# 'en' -> /ɛ̃/
-define EN       e n -> ɛ̃ ;
-
-# 'on' -> /õ/
-define ON       o n -> õ ;
-
-# 'an' -> /ã/
-define AN       a n -> ã ;
-
-# 'un' -> /œ̃/
-define UN       u n -> œ̃ ;
-
-# 'eu' -> /ø/
-define EU       e u -> ø ;
-
-# 'eun' -> /ə̃/
-define EUN       e u n -> ə̃ ;
-
-# 'ä' -> /a/
-define umlautA  ä -> aː ;
-
-# 'ei' -> /ej/
-define EI       e i -> ej ;
-
-# 'ay' -> /aj/
-define AY       a y -> aj ;
-
-# 'si' / 'ci' -> /ʃ/
-define SI       [ s i | c i ] -> ʃ ;
-
-# 'zi' -> /ʒ/
-define ZI       z i -> ʒ ;
-
-# -------------- CONSONANT RULES --------------
-
-# 't' -> /∅/ word-finally SOMETIMES??
-define finalT       t -> 0 || _ .#. ;
-
-# 'v' -> /∅/ in 'ave'
-define AVE          v -> v || a _ e ;
-
-# 'z' -> /∅/ word-finally
-define finalZ       z -> 0 || _ .#. ;
-
-# 's' -> /∅/ word-finally
-define finalS       s -> 0 || _ .#. ;
-
-# fix placeholder -> /s/
-define fixS         S -> s ;
-
-# 's' -> /z/ intervocalically
-define intervocalS  s -> z || V _ V ;
-
-# 'r' -> /∅/ intervocalically I DONT THINK THIS RULE IS REAL AND TRUE
-# define intervocalR  r -> 0 || V _ V ;
+# 'tt' -> /t/
+define TT           t t -> t ;
 
 # 'c' -> /s/ (placeholder) before i, e
 define softC        c -> S || _ [ e | i | é ] ;
@@ -162,11 +13,38 @@ define softC        c -> S || _ [ e | i | é ] ;
 # 'c' -> /k/ elsewhere
 define hardC        c -> k ;
 
+# 'cc' -> /k/
+define CC           c c -> k ;
+
+# 'qu' -> /k/
+define QU           q u -> k ;
+
 # 'g' -> /ʒ/ before i, e
 define softG        g -> ʒ || _ [ e | i | é ] ;
 
 # 'gu' -> /g/ before i, e
 define GU           g u -> g || _ [ e | i | é ] ;
+
+# 'n' -> /n/ intervocalically
+define intervocalN  n -> N || V _ V ;
+define fixN         N -> n ;
+
+# 'gn' -> /ɲ/
+define GN           g n -> ɲ ;
+
+# 'vv' -> /v/
+define VV           v v -> v ;
+
+# 's' -> /∅/ word-finally, /z/ intervocalically
+define finalS       s -> 0 || _ .#. ;
+define intervocalS  s -> z || V _ V ;
+
+# 'ss' -> /s/
+define SS           s s -> S ;
+define fixS         S -> s ;
+
+# 'ç' -> /s/
+define cedilleC     ç -> s ;
 
 # 'x' -> /ks/ intervocalically
 define intervocalX  x -> k s || V _ V ;
@@ -174,33 +52,134 @@ define intervocalX  x -> k s || V _ V ;
 # 'x' -> /s/ before a consonant
 define elsewhereX   x -> s || _ C ;
 
-# -------------- VOWEL RULES --------------
+# 'z' -> /∅/ word-finally
+define finalZ       z -> 0 || _ .#. ;
+
+# 'ch' -> /ʃ/
+define CH           c h -> ʃ ;
+
+# 'tch' -> /t͡ʃ/
+define TCH          t c h -> t͡ʃ ;
+
+# 'j' -> /ʒ/
+define J            j -> ʒ ;
+
+# 'r' -> /ʁ/
+define uvularR      r -> ʁ ;
+
+# 'rr' -> /r/
+define RR           r r -> R ;
+define fixR         R -> r ;
+
+# 'h' -> /∅/
+define silentH      h -> 0 ;
+
+# 'll' -> /l/
+define LL           l l -> l ;
+
+# 'ill' -> /ʎ/
+define ILL          i l l -> ʎ ;
+
+# 'cll' -> /kʎ/
+define CLL          c l l -> kʎ ;
+
+# 'gll' -> /gʎ/
+define GLL          g l l -> gʎ ;
+
+# 'fll' -> /fʎ/
+define FLL          f l l -> fʎ ;
+
+# 'y' -> /j/
+define regY         y -> j ;
+
+# -------------- VOWELS --------------
 
 # 'i' -> /j/ before a vowel
 define prevowelI    i -> j || _ V ;
 
 # 'u' -> /ɥ/ before a vowel
-# define prevowelU    u -> ɥ || _ V ;
+# define prevowelU  u -> ɥ || _ V ;
+
+# 'u' -> /y/ elsewhere
+define regU         u -> y ;
 
 # 'ou' -> /w/ before a vowel
 define prevowelOU   o u -> w || _ V ;
 
-# 'o' -> /∅/ in -TRO MAYBE GONE
-# define TRO          o -> ə || t r _ .#. ;
+# 'ou' -> /u/ elsewhere
+define OU           o u -> U ;
 
-# 'tel' -> /ti/ word-finally
-define TEL           t e l -> t i || _ .#. ;
+# 'oue' -> /u/ 
+define OUE          o u e -> U ;
+define fixU         U -> u ;
 
-# 'et' -> /ɛtː/ word-finally
-define ET           e t -> ɛ Tː || _ .#. ;
-
-# fix placeholder -> /t/
-define fixT         Tː -> tː ;
+# 'e' -> /ɛ/ SOMETIMES??
+define regE         e -> ɛ ;
 
 # 'e' -> /ə/ word-finally SOMETIMES
 define finalE       e -> ə || _ .#. ;
 
-# schwa deletion - phonological rule
+# 'é' -> /e/ 
+define aiguE        é -> E ;
+define fixE         E -> e ;
+
+# 'ê' -> /ɛ/
+define circE        ê -> ɛ ;
+
+# 'ei' -> /ej/
+define EI           e i -> ej ;
+
+# 'eu' -> /ø/
+define EU           e u -> ø ;
+
+# 'ô' -> /o/ 
+define circO        ô -> o ;
+
+# 'oe' -> /ø/
+define OE           o e -> ø ;
+
+# 'à' -> /a/
+define graveA       à -> a ;
+
+# 'â' -> /a/
+define circA        â -> a ;
+
+# 'ä' -> /a/
+define umlautA      ä -> a ;
+
+
+# 'in' -> /ĩ/
+define IN           i n -> ĩ ;
+
+# 'un' -> /œ̃/
+define UN           u n -> œ̃ ;
+
+# 'en' -> /ɛ̃/
+define EN           e n -> ɛ̃ ;
+
+# 'eun' -> /ø̃/
+define EUN          e u n -> ø̃ ;
+
+# 'on' -> /õ/
+define ON           o n -> õ ;
+
+# 'an' -> /ã/
+define AN           a n -> ã ;
+
+# -------------- MORPHEMES? --------------
+
+# 't' -> /∅/ word-finally SOMETIMES??
+define finalT       t -> 0 || _ .#. ;
+
+# 'o' -> /∅/ in -TRO MAYBE GONE
+# define TRO        o -> ə || t r _ .#. ;
+
+# 'tel' -> /ti/ word-finally
+define TEL          t e l -> t i || _ .#. ;
+
+# 'et' -> /ɛtː/ word-finally
+define ET           e t -> ɛ Tː || _ .#. ;
+define fixT         Tː -> tː ;
 
 # -------------- G2P --------------
 
@@ -211,18 +190,17 @@ define G2P TCH .o.
     SS .o. softC .o. intervocalS .o. finalS .o. fixS .o.
     CH .o. LL .o.
     prevowelOU .o. OU .o.
-    EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o.
-    EU .o. OE .o. EI .o. AY .o.
-    SI .o. ZI .o.
+    intervocalN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o. fixN .o.
+    EU .o. OE .o. EI .o. 
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
-    TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. AVE .o.
+    TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. 
     J .o. regY .o. cedilleC .o. silentH .o.
     circE .o. circA .o. circO .o. umlautA .o.
     aiguE .o. graveA .o.
     prevowelI .o. 
     finalE .o. 
-    regE .o. regO .o. regU .o.
-    fixU .o. fixO .o. fixE ;
+    regE .o. regU .o.
+    fixU .o. fixE ;
 
 regex G2P ;
