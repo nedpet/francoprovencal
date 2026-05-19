@@ -67,6 +67,9 @@ define regO     o -> o ;
 # 'u' -> /y/
 define regU     u -> y ;
 
+# 'y' -> /j/
+define regY     y -> j ;
+
 # 'oue' -> /u/ (placeholder)
 define OUE      o u e -> U ;
 
@@ -109,8 +112,8 @@ define AN       a n -> ã ;
 # 'un' -> /œ̃/
 define UN       u n -> œ̃ ;
 
-# 'eu' -> /ə/
-define EU       e u -> ə ;
+# 'eu' -> /ø/
+define EU       e u -> ø ;
 
 # 'eun' -> /ə̃/
 define EUN       e u n -> ə̃ ;
@@ -154,16 +157,16 @@ define intervocalS  s -> z || V _ V ;
 # define intervocalR  r -> 0 || V _ V ;
 
 # 'c' -> /s/ (placeholder) before i, e
-define softC        c -> S || _ [ e | i ] ;
+define softC        c -> S || _ [ e | i | é ] ;
 
 # 'c' -> /k/ elsewhere
 define hardC        c -> k ;
 
 # 'g' -> /ʒ/ before i, e
-define softG        g -> ʒ || _ [ e | i ] ;
+define softG        g -> ʒ || _ [ e | i | é ] ;
 
 # 'gu' -> /g/ before i, e
-define GU           g u -> g || _ [ e | i ] ;
+define GU           g u -> g || _ [ e | i | é ] ;
 
 # 'x' -> /ks/ intervocalically
 define intervocalX  x -> k s || V _ V ;
@@ -177,16 +180,16 @@ define elsewhereX   x -> s || _ C ;
 define prevowelI    i -> j || _ V ;
 
 # 'u' -> /ɥ/ before a vowel
-define prevowelU    u -> ɥ || _ V ;
+# define prevowelU    u -> ɥ || _ V ;
 
 # 'ou' -> /w/ before a vowel
 define prevowelOU   o u -> w || _ V ;
 
-# 'o' -> /∅/ in -TRO
-define TRO          o -> 0 || t r _ .#. ;
+# 'o' -> /∅/ in -TRO MAYBE GONE
+# define TRO          o -> ə || t r _ .#. ;
 
 # 'tel' -> /ti/ word-finally
-define TEL           t e l -> ti || _ .#. ;
+define TEL           t e l -> t i || _ .#. ;
 
 # 'et' -> /ɛtː/ word-finally
 define ET           e t -> ɛ Tː || _ .#. ;
@@ -197,11 +200,13 @@ define fixT         Tː -> tː ;
 # 'e' -> /ə/ word-finally SOMETIMES
 define finalE       e -> ə || _ .#. ;
 
+# schwa deletion - phonological rule
+
 # -------------- G2P --------------
 
 define G2P TCH .o.
     CLL .o. GLL .o. FLL .o. ILL .o.
-    GN .o. GU .o. QU .o. TRO .o. 
+    GN .o. GU .o. QU .o. 
     RR .o. uvularR .o. fixR .o.
     SS .o. softC .o. intervocalS .o. finalS .o. fixS .o.
     CH .o. LL .o.
@@ -212,10 +217,10 @@ define G2P TCH .o.
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
     TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. AVE .o.
-    J .o. cedilleC .o. silentH .o.
+    J .o. regY .o. cedilleC .o. silentH .o.
     circE .o. circA .o. circO .o. umlautA .o.
     aiguE .o. graveA .o.
-    prevowelI .o. prevowelU .o.
+    prevowelI .o. 
     finalE .o. 
     regE .o. regO .o. regU .o.
     fixU .o. fixO .o. fixE ;
