@@ -172,7 +172,7 @@ define AN           a n -> ã ;
 define finalT       t -> 0 || _ .#. ;
 
 # 'o' -> /∅/ in -TRO MAYBE GONE
-# define TRO        o -> ə || t r _ .#. ;
+define TRO        o -> ə || t r _ .#. ;
 
 # 'tel' -> /ti/ word-finally
 define TEL          t e l -> t i || _ .#. ;
@@ -183,7 +183,7 @@ define fixT         Tː -> tː ;
 
 # -------------- G2P --------------
 
-define G2P TCH .o.
+define G2P TCH .o. TRO .o.
     CLL .o. GLL .o. FLL .o. ILL .o.
     GN .o. GU .o. QU .o. 
     RR .o. uvularR .o. fixR .o.
