@@ -38,6 +38,7 @@ define VV           v v -> v ;
 # 's' -> /∅/ word-finally, /z/ intervocalically
 define finalS       s -> 0 || _ .#. ;
 define intervocalS  s -> z || V _ V ;
+define liaisonS     s -> z || _ .#. V ;
 
 # 'ss' -> /s/
 define SS           s s -> S ;
@@ -64,12 +65,17 @@ define TCH          t c h -> t͡ʃ ;
 # 'j' -> /ʒ/
 define J            j -> ʒ ;
 
-# 'r' -> /ʁ/
+# 'r' -> /j/ interovcalically
+define intervocalR  r -> j || V _ V ;
+
+# 'r' -> /ʁ/ elsewhere
 define uvularR      r -> ʁ ;
 
-# 'rr' -> /r/
-define RR           r r -> R ;
-define fixR         R -> r ;
+# 'r' -> /∅/ word-finally
+# define finalR     r -> ∅ || _ # ;
+
+# 'rr' -> /ʁ/
+define RR           r r -> ʁ ;
 
 # 'h' -> /∅/
 define silentH      h -> 0 ;
@@ -97,8 +103,8 @@ define regY         y -> j ;
 # 'i' -> /j/ before a vowel
 define prevowelI    i -> j || _ V ;
 
-# 'u' -> /ɥ/ before a vowel
-# define prevowelU  u -> ɥ || _ V ;
+# 'ì' -> /i/ 
+define graveI       ì -> i ;
 
 # 'u' -> /y/ elsewhere
 define regU         u -> y ;
@@ -132,11 +138,11 @@ define EI           e i -> ej ;
 # 'eu' -> /ø/
 define EU           e u -> ø ;
 
-# 'ô' -> /o/ 
-define circO        ô -> o ;
-
 # 'oe' -> /ø/
 define OE           o e -> ø ;
+
+# 'au' -> /o/
+define AU           a u -> o ;
 
 # 'à' -> /a/
 define graveA       à -> a ;
@@ -177,16 +183,19 @@ define TRO        o -> ə || t r _ .#. ;
 # 'tel' -> /ti/ word-finally
 define TEL          t e l -> t i || _ .#. ;
 
-# 'et' -> /ɛtː/ word-finally
-define ET           e t -> ɛ Tː || _ .#. ;
-define fixT         Tː -> tː ;
+# 'et' -> /ɛt/ word-finally
+define ET           e t -> ɛ T || _ .#. ;
+define fixT         T -> t ;
 
 # -------------- G2P --------------
 
-define G2P TCH .o. TRO .o.
+define ExMap [ "aveir" -> "{aveir}" || .#. _ .#. .o. "per" -> "{per}" || .#. _ .#. .o. "tetes" -> "{tetes}" || .#. _ .#. .o. "couté" -> "{couté}" || .#. _ .#. .o. "peillos" -> "{peillos}" || .#. _ .#. .o. "coups" -> "{coups}" || .#. _ .#. .o. "premiere" -> "{premiere}" || .#. _ .#. .o. "su" -> "{su}" || .#. _ .#. .o. "que" -> "{que}" || .#. _ .#. .o. "dents" -> "{dents}" || .#. _ .#. .o. "dzens" -> "{dzens}" || .#. _ .#. .o. "sopatâ" -> "{sopatâ}" || .#. _ .#. .o. "est" -> "{est}" || .#. _ .#. .o. "et" -> "{et}" || .#. _ .#. .o. "tsamos" -> "{tsamos}" || .#. _ .#. .o. "trouvà" -> "{trouvà}" || .#. _ .#. ] ;
+define ExFix [ "{aveir}" -> "avej" || .#. _ .#. .o. "{per}" -> "pə" || .#. _ .#. .o. "{tetes}" -> "titə" || .#. _ .#. .o. "{couté}" -> "kuti" || .#. _ .#. .o. "{peillos}" -> "pidjo" || .#. _ .#. .o. "{coups}" -> "ku" || .#. _ .#. .o. "{premiere}" -> "pʁəmi" || .#. _ .#. .o. "{su}" -> "ʃy" || .#. _ .#. .o. "{que}" -> "ke" || .#. _ .#. .o. "{dents}" -> "di" || .#. _ .#. .o. "{dzens}" -> "dzi" || .#. _ .#. .o. "{sopatâ}" -> "ʃopata" || .#. _ .#. .o. "{est}" -> "ɛ" || .#. _ .#. .o. "{et}" -> "e" || .#. _ .#. .o. "{tsamos}" -> "tsamoʃ" || .#. _ .#. .o. "{trouvà}" -> "tʁuwa" || .#. _ .#. ] ;
+
+define G2P ExMap .o. TCH .o. TRO .o. CC .o. VV .o. TT .o.
     CLL .o. GLL .o. FLL .o. ILL .o.
     GN .o. GU .o. QU .o. 
-    RR .o. uvularR .o. fixR .o.
+    J .o. intervocalR .o. RR .o. uvularR .o. 
     SS .o. softC .o. intervocalS .o. finalS .o. fixS .o.
     CH .o. LL .o.
     prevowelOU .o. OU .o.
@@ -195,12 +204,13 @@ define G2P TCH .o. TRO .o.
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
     TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. 
-    J .o. regY .o. cedilleC .o. silentH .o.
-    circE .o. circA .o. circO .o. umlautA .o.
+    regY .o. cedilleC .o. silentH .o.
+    circE .o. circA .o. umlautA .o.
     aiguE .o. graveA .o.
     prevowelI .o. 
-    finalE .o. 
+    finalE .o. AU .o. 
     regE .o. regU .o.
-    fixU .o. fixE ;
+    fixU .o. fixE .o. ExFix;
 
-regex G2P ;
+regex G2P;
+
