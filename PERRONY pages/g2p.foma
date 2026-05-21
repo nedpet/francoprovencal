@@ -40,7 +40,7 @@ define VV           v v -> v ;
 # 's' -> /∅/ word-finally, /z/ intervocalically
 define finalS       s -> 0 || _ WB ;
 define intervocalS  s -> z || V _ V ;
-define liaisonS     s -> Z || _ WB V ;
+define liaisonS     s (->) Z || _ WB V ;
 define fixZ         Z -> z ;
 
 # 'ss' -> /s/
