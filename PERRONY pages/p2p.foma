@@ -17,6 +17,9 @@ define initialB     b (->) bː || WB _ ;
 # 's' -> /z/ intervocalically
 define intervocalS  s -> z || V _ V ;
 
+# 'S' -> /s/ 
+define S            S -> s ;
+
 # 'r' -> /j/ intervocalically
 define intervocalR  r -> j || V _ V ;
 
@@ -34,8 +37,8 @@ define initialR     ʁ (->) ʀ || WB _ ;
 # 'ɛ' -> /ə/ word-finally 
 define finalE       ɛ -> ə || _ WB ;
 
-# -------------- P2P --------------
+# -------------- P2P -----------------
 
-define P2P initialP .o. initialB .o. intervocalS .o. intervocalR .o. intervocalV1 .o. intervocalV2 .o. initialR .o. finalE ;
+define P2P initialP .o. initialB .o. intervocalS .o. S .o. intervocalR .o. intervocalV1 .o. intervocalV2 .o. initialR .o. finalE ;
 
 regex P2P;

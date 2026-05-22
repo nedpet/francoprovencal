@@ -58,10 +58,10 @@ define fixZ         Z -> z ;
 
 # 'ss' -> /s/
 define SS           s s -> S ;
-define fixS         S -> s ;
+# define fixS         S -> s ;
 
 # 'ç' -> /s/
-define cedilleC     ç -> s ;
+define cedilleC     ç -> S ;
 
 # 'x' -> /ks/ intervocalically
 define intervocalX  x -> k s || V _ V ;
@@ -139,14 +139,17 @@ define OU           o u -> U ;
 define fixU         U -> u ;
 
 # 'e' -> /ɛ/ 
-define regE         e -> ɛ ;
+define regE         e -> ɛ || _ C C ;
+
+# 'ʁe' -> /ʁɛ/
+define RE           ʁ e -> ʁ ɛ ;
+
+# 'eʁ' -> /ɛʁ/
+define ER           e ʁ -> ɛ ʁ ;
 
 # 'é' -> /e/ 
 define aiguE        é -> E ;
 define fixE         E -> e ;
-
-# 'ê' -> /ɛ/
-define circE        ê -> ɛ ;
 
 # 'ei' -> /ej/
 define EI           e i -> ej ;
@@ -193,7 +196,7 @@ define AN           a n -> ã ;
 # 't' -> /∅/ word-finally SOMETIMES
 define finalT       t (->) 0 || _ WB ;
 
-# 'o' -> /∅/ in -TRO MAYBE GONE
+# 'o' -> /∅/ in -TRO 
 define TRO          o -> ə || t r _ WB ;
 
 # 'tel' -> /ti/ word-finally
@@ -212,7 +215,7 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     CLL .o. GLL .o. FLL .o. ILL .o.
     GN .o. GU .o. QU .o. 
     DJ .o. J .o. finalR .o. RR .o. uvularR .o. 
-    SS .o. softC .o. liaisonS .o. finalS .o. fixS .o.
+    SS .o. softC .o. liaisonS .o. finalS .o. 
     CH .o. LL .o.
     prevowelOU .o. OU .o.
     intervocalN .o. NN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o. fixN .o.
@@ -221,11 +224,11 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     softG .o. hardC .o.
     TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. fixZ .o.
     regY .o. cedilleC .o. silentH .o.
-    circE .o. circA .o. umlautA .o.
+    circA .o. umlautA .o.
     aiguE .o. graveA .o.
     prevowelI .o. 
     AU .o. 
-    regE .o. regU .o.
+    regE .o. ER .o. RE .o. regU .o.
     fixU .o. fixE .o. ExFix;
 
 regex G2P;
