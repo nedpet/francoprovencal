@@ -1,3 +1,5 @@
+# grapheme to phoneme
+
 define V    [ a | e | i | o | u | é | ê | â | ô | œ | ä ] ;
 
 define C    [ b | c | ç | d | f | g | h | j | k | m | n | p | q | r | s | t | v | x | z ] ;
@@ -6,8 +8,14 @@ define WB   [ .#. | " " ] ;
 
 # -------------- CONSONANTS --------------
 
+# 'pp' -> /p/
+define PP           p p -> p ;
+
+# 'bb' -> /b/
+define BB           b b -> b ;
+
 # 'tt' -> /t/
-define TT           t t -> t ;
+define TT           t t -> tː ;
 
 # 'c' -> /s/ (placeholder) before i, e
 define softC        c -> S || _ [ e | i | é ] ;
@@ -27,8 +35,14 @@ define softG        g -> ʒ || _ [ e | i | é ] ;
 # 'gu' -> /g/ before i, e
 define GU           g u -> g || _ [ e | i | é ] ;
 
+# 'mm' -> /m/
+define MM           m m -> m ;
+
+# 'nn' -> /n/
+define NN           n n -> N ;
+
 # 'n' -> /n/ intervocalically
-define intervocalN  n -> N || V _ V ;
+define intervocalN  n (->) N || V _ V ;
 define fixN         N -> n ;
 
 # 'gn' -> /ɲ/
@@ -37,9 +51,8 @@ define GN           g n -> ɲ ;
 # 'vv' -> /v/
 define VV           v v -> v ;
 
-# 's' -> /∅/ word-finally, /z/ intervocalically
+# 's' -> /∅/ word-finally, and sometimes liaison
 define finalS       s -> 0 || _ WB ;
-define intervocalS  s -> z || V _ V ;
 define liaisonS     s (->) Z || _ WB V ;
 define fixZ         Z -> z ;
 
@@ -68,14 +81,20 @@ define TCH          t c h -> t͡ʃ ;
 # 'j' -> /ʒ/
 define J            j -> ʒ ;
 
-# 'r' -> /j/ interovcalically
-define intervocalR  r -> j || V _ V ;
+# 'dj' -> /d͡ʒ/      
+define DJ           d j -> d͡ʒ ;
+
+# 'ts' -> /t͡s/
+define TS           t s -> t͡s ;
+
+# 'dz' -> /d͡z/
+define DZ           d z -> d͡z ;
 
 # 'r' -> /ʁ/ elsewhere
 define uvularR      r -> ʁ ;
 
 # 'r' -> /∅/ word-finally
-# define finalR     r -> ∅ || _ # ;
+define finalR       r (->) 0 || _ WB ;
 
 # 'rr' -> /ʁ/
 define RR           r r -> ʁ ;
@@ -117,16 +136,10 @@ define prevowelOU   o u -> w || _ V ;
 
 # 'ou' -> /u/ elsewhere
 define OU           o u -> U ;
-
-# 'oue' -> /u/ 
-define OUE          o u e -> U ;
 define fixU         U -> u ;
 
-# 'e' -> /ɛ/ SOMETIMES??
+# 'e' -> /ɛ/ 
 define regE         e -> ɛ ;
-
-# 'e' -> /ə/ word-finally SOMETIMES
-define finalE       e -> ə || _ WB ;
 
 # 'é' -> /e/ 
 define aiguE        é -> E ;
@@ -158,7 +171,7 @@ define umlautA      ä -> a ;
 
 
 # 'in' -> /ĩ/
-define IN           i n -> ĩ ;
+define IN           i n -> ã ;
 
 # 'un' -> /œ̃/
 define UN           u n -> œ̃ ;
@@ -173,36 +186,36 @@ define EUN          e u n -> ø̃ ;
 define ON           o n -> õ ;
 
 # 'an' -> /ã/
-define AN           a n -> ã ;
+define AN           a n -> ã ;
 
 # -------------- MORPHEMES? --------------
 
-# 't' -> /∅/ word-finally SOMETIMES??
-define finalT       t -> 0 || _ WB ;
+# 't' -> /∅/ word-finally SOMETIMES
+define finalT       t (->) 0 || _ WB ;
 
 # 'o' -> /∅/ in -TRO MAYBE GONE
-define TRO        o -> ə || t r _ WB ;
+define TRO          o -> ə || t r _ WB ;
 
 # 'tel' -> /ti/ word-finally
 define TEL          t e l -> t i || _ WB ;
 
 # 'et' -> /ɛt/ word-finally
 define ET           e t -> ɛ T || _ WB ;
-define fixT         T -> t ;
+define fixT         T -> tː ;
 
 # -------------- G2P --------------
 
 define ExMap [ "aveir" -> "{aveir}" || WB _ WB .o. "per" -> "{per}" || WB _ WB .o. "tetes" -> "{tetes}" || WB _ WB .o. "couté" -> "{couté}" || WB _ WB .o. "peillos" -> "{peillos}" || WB _ WB .o. "coups" -> "{coups}" || WB _ WB .o. "premiere" -> "{premiere}" || WB _ WB .o. "su" -> "{su}" || WB _ WB .o. "que" -> "{que}" || WB _ WB .o. "dents" -> "{dents}" || WB _ WB .o. "dzens" -> "{dzens}" || WB _ WB .o. "sopatâ" -> "{sopatâ}" || WB _ WB .o. "est" -> "{est}" || WB _ WB .o. "et" -> "{et}" || WB _ WB .o. "tsamos" -> "{tsamos}" || WB _ WB .o. "trouvà" -> "{trouvà}" || WB _ WB ] ;
 define ExFix [ "{aveir}" -> "avej" || WB _ WB .o. "{per}" -> "pə" || WB _ WB .o. "{tetes}" -> "titə" || WB _ WB .o. "{couté}" -> "kuti" || WB _ WB .o. "{peillos}" -> "pidjo" || WB _ WB .o. "{coups}" -> "ku" || WB _ WB .o. "{premiere}" -> "pʁəmi" || WB _ WB .o. "{su}" -> "ʃy" || WB _ WB .o. "{que}" -> "ke" || WB _ WB .o. "{dents}" -> "di" || WB _ WB .o. "{dzens}" -> "dzi" || WB _ WB .o. "{sopatâ}" -> "ʃopata" || WB _ WB .o. "{est}" -> "ɛ" || WB _ WB .o. "{et}" -> "e" || WB _ WB .o. "{tsamos}" -> "tsamoʃ" || WB _ WB .o. "{trouvà}" -> "tʁuwa" || WB _ WB ] ;
 
-define G2P ExMap .o. TCH .o. TRO .o. CC .o. VV .o. TT .o.
+define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. BB .o. MM .o. 
     CLL .o. GLL .o. FLL .o. ILL .o.
     GN .o. GU .o. QU .o. 
-    J .o. intervocalR .o. RR .o. uvularR .o. 
-    SS .o. softC .o. intervocalS .o. liaisonS .o. finalS .o. fixS .o.
+    DJ .o. J .o. finalR .o. RR .o. uvularR .o. 
+    SS .o. softC .o. liaisonS .o. finalS .o. fixS .o.
     CH .o. LL .o.
     prevowelOU .o. OU .o.
-    intervocalN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o. fixN .o.
+    intervocalN .o. NN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o. fixN .o.
     EU .o. OE .o. EI .o. 
     intervocalX .o. elsewhereX .o.
     softG .o. hardC .o.
@@ -211,7 +224,7 @@ define G2P ExMap .o. TCH .o. TRO .o. CC .o. VV .o. TT .o.
     circE .o. circA .o. umlautA .o.
     aiguE .o. graveA .o.
     prevowelI .o. 
-    finalE .o. AU .o. 
+    AU .o. 
     regE .o. regU .o.
     fixU .o. fixE .o. ExFix;
 
