@@ -69,6 +69,9 @@ define intervocalX  x -> k s || V _ V ;
 # 'x' -> /s/ before a consonant
 define elsewhereX   x -> s || _ C ;
 
+# 'x' -> /0/ word-finally
+define finalX       x -> 0 || _ WB ;
+
 # 'z' -> /∅/ word-finally
 define finalZ       z -> 0 || _ WB ;
 
@@ -221,7 +224,7 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     prevowelOU .o. OU .o.
     intervocalN .o. NN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. EN .o. fixN .o.
     EU .o. OE .o. EI .o. 
-    intervocalX .o. elsewhereX .o.
+    intervocalX .o. elsewhereX .o. finalX .o.
     softG .o. hardC .o.
     TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. fixZ .o.
     regY .o. cedilleC .o. silentH .o.
