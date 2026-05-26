@@ -7,7 +7,8 @@ from foma import FST
 
 def process_line(line: str, d: dict[str, str]):
     fst = FST.load('g2p.fomabin')
-    line = "".join([char for char in line if char.isalpha() or char in ['(', ')', '[', ']', ' ']])
+    line = "".join([char for char in line if char.isalpha() or char in ['(', ')', '[', ']', '-', ' ']])
+    line = line.replace("-", " ")
     if line == "":
         return
     line_lst = line.strip().split(" ")
@@ -18,7 +19,7 @@ def process_line(line: str, d: dict[str, str]):
         if results is None:
             continue
         word_ipa = results[0]
-        if not re.search("[^(\\t)0123456789.(Sentence)pbt(tː)dkgmnɲfvsSzʃʒʁwljʎ(t͡s)(d͡z)(t͡ʃ)(d͡ʒ)iyueəøoɛaø̃õɛ̃œ̃ã ]", word_ipa) is None:
+        if not re.search("[^(\\t)0123456789.(Sentence)pbt(tː)dkgmnɲfvsSzʃʒʁwɥljʎ(t͡s)(d͡z)(t͡ʃ)(d͡ʒ)iyueəøoɛaø̃õɛ̃œ̃ã ]", word_ipa) is None:
             if word[0].isupper() or any((char in word) for char in ['(', ')', '[', ']']) or word in d:
                 continue
             d[word] = word_ipa
