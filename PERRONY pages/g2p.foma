@@ -109,7 +109,7 @@ define silentH      h -> 0 ;
 define LL           l l -> l ;
 
 # 'ill' -> /ʎ/
-define ILL          i l l -> ʎ ;
+define ILL          i l l -> iʎ || [C | WB] _ ;
 
 # 'cll' -> /kʎ/
 define CLL          c l l -> kʎ ;
@@ -141,14 +141,14 @@ define prevowelOU   o u -> w || _ V ;
 define OU           o u -> U ;
 define fixU         U -> u ;
 
+# 'hu' -> /ɥ/ before a vowel
+define HU          h u -> ɥ || WB _ V ;
+
 # 'e' -> /ɛ/ 
-define regE         e -> ɛ || _ C C ;
+define regE         e -> ɛ || _ C [ C | WB ] ;
 
 # 'ʁe' -> /ʁɛ/
 define RE           ʁ e -> ʁ ɛ ;
-
-# 'eʁ' -> /ɛʁ/
-define ER           e ʁ -> ɛ ʁ ;
 
 # 'é' -> /e/ 
 define aiguE        é -> E ;
@@ -212,12 +212,12 @@ define fixT         T -> tː ;
 
 # -------------- G2P --------------
 
-define ExMap [ "aveir" -> "{aveir}" || WB _ WB .o. "per" -> "{per}" || WB _ WB .o. "tetes" -> "{tetes}" || WB _ WB .o. "couté" -> "{couté}" || WB _ WB .o. "peillos" -> "{peillos}" || WB _ WB .o. "coups" -> "{coups}" || WB _ WB .o. "premiere" -> "{premiere}" || WB _ WB .o. "su" -> "{su}" || WB _ WB .o. "dents" -> "{dents}" || WB _ WB .o. "dzens" -> "{dzens}" || WB _ WB .o. "sopatâ" -> "{sopatâ}" || WB _ WB .o. "est" -> "{est}" || WB _ WB .o. "et" -> "{et}" || WB _ WB .o. "tsamos" -> "{tsamos}" || WB _ WB .o. "trouvà" -> "{trouvà}" || WB _ WB ] ;
-define ExFix [ "{aveir}" -> "avej" || WB _ WB .o. "{per}" -> "pə" || WB _ WB .o. "{tetes}" -> "titə" || WB _ WB .o. "{couté}" -> "kuti" || WB _ WB .o. "{peillos}" -> "pidjo" || WB _ WB .o. "{coups}" -> "ku" || WB _ WB .o. "{premiere}" -> "pʁəmi" || WB _ WB .o. "{su}" -> "ʃy" || WB _ WB .o. "{dents}" -> "di" || WB _ WB .o. "{dzens}" -> "dzi" || WB _ WB .o. "{sopatâ}" -> "ʃopata" || WB _ WB .o. "{est}" -> "ɛ" || WB _ WB .o. "{et}" -> "e" || WB _ WB .o. "{tsamos}" -> "tsamoʃ" || WB _ WB .o. "{trouvà}" -> "tʁuwa" || WB _ WB ] ;
+define ExMap [ a v e i r -> "EX_aveir" || WB _ WB .o. p e r -> "EX_per" || WB _ WB .o. t e t e s -> "EX_tetes" || WB _ WB .o. c o u t e ́ -> "EX_couté" || WB _ WB .o. p e i l l o s -> "EX_peillos" || WB _ WB .o. c o u p s -> "EX_coups" || WB _ WB .o. p r e m i e r e -> "EX_premiere" || WB _ WB .o. s u -> "EX_su" || WB _ WB .o. d e n t s -> "EX_dents" || WB _ WB .o. d z e n s -> "EX_dzens" || WB _ WB .o. s o p a t a ̂ -> "EX_sopatâ" || WB _ WB .o. e s t -> "EX_est" || WB _ WB .o. e t -> "EX_et" || WB _ WB .o. t s a m o s -> "EX_tsamos" || WB _ WB .o. t r o u v a ̀ -> "EX_trouvà" || WB _ WB ] ;
+define ExFix [ "EX_aveir" -> a v e j || WB _ WB .o. "EX_per" -> p ə || WB _ WB .o. "EX_tetes" -> t i t ə || WB _ WB .o. "EX_couté" -> k u t i || WB _ WB .o. "EX_peillos" -> p i d j o || WB _ WB .o. "EX_coups" -> k u || WB _ WB .o. "EX_premiere" -> p ʁ ə m i || WB _ WB .o. "EX_su" -> ʃ y || WB _ WB .o. "EX_dents" -> d i || WB _ WB .o. "EX_dzens" -> d z i || WB _ WB .o. "EX_sopatâ" -> ʃ o p a t a || WB _ WB .o. "EX_est" -> ɛ || WB _ WB .o. "EX_et" -> e || WB _ WB .o. "EX_tsamos" -> t s a m o ʃ || WB _ WB .o. "EX_trouvà" -> t ʁ u w a || WB _ WB ] ;
 
 define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. BB .o. MM .o. 
     CLL .o. GLL .o. FLL .o. ILL .o.
-    GN .o. GU .o. QU .o. 
+    GN .o. GU .o. QU .o. HU .o.
     DJ .o. J .o. finalR .o. RR .o. uvularR .o. 
     SS .o. softC .o. liaisonS .o. finalS .o. 
     CH .o. LL .o.
@@ -232,7 +232,7 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     aiguE .o. graveA .o. graveE .o. graveI .o.
     prevowelI .o. 
     AU .o. 
-    regE .o. ER .o. RE .o. regU .o.
+    regE .o. RE .o. regU .o.
     fixU .o. fixE .o. ExFix;
 
 regex G2P;

@@ -10,17 +10,20 @@ def get_dict() -> dict[str, str]:
             line = f.readline()
     return d
 
+def space_word(word: str):
+    return " ".join([char for char in word])
+
 def run() -> tuple[str, str]:
     d = get_dict()
     exMap = "define ExMap [ "
     exFix = "define ExFix [ "
     for key in d:
-        exMap += f'"{key}" -> "{"{" + key + "}"}" || .#. _ .#. .o. ' 
-        exFix += f'"{"{" + key + "}"}" -> "{d[key]}" || .#. _ .#. .o. ' 
+        exMap += f'{space_word(key)} -> "EX_{key}" || WB _ WB .o. ' 
+        exFix += f'"EX_{key}" -> {space_word(d[key])} || WB _ WB .o. ' 
     return exMap[:-4] + "] ;", exFix[:-4] + "] ;"
 
-# define ExMap [ "etot" -> "{etot}" .o. "dents" -> "{EX_dents}" ] ;
-# define ExFix [ "{etot}" -> "eto" .o. "{EX_dents}" -> "di" ] ;    
+# define ExMap [ e t o t -> "etot" || WB _ WB .o. d e n t s -> "dents" || WB _ WB ] ;
+# define ExFix [ "etot" -> e t o || WB _ WB .o. "dents" -> d i || WB _ WB ] ;    
 
 if __name__ == "__main__":
     result = run()

@@ -6,7 +6,6 @@ peillos:pidjo
 coups:ku
 premiere:pʁəmi
 su:ʃy
-que:ke
 dents:di
 dzens:dzi
 sopatâ:ʃopata

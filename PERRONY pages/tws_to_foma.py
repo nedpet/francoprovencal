@@ -15,7 +15,7 @@ def foma_file(filename: str, fst: FST):
                 output_file.write(foma_line(line, fst))
                 line = input_file.readline()
 
-def run():
+def run(wav_files_exist: bool = False):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     subprocess.run(['foma', '-e', 'source g2p.foma', '-e', 'save stack g2p.fomabin', '-e', 'quit'])
     fst = FST.load('g2p.fomabin')
@@ -24,7 +24,8 @@ def run():
         if i in {21, 23, 26, 31}:
             continue
         foma_file(f"chapter{i}.tws", fst)
-        subprocess.run(['cp', f"perrony_extracted/chapter{i}.wav", 'perrony_ipa'])
+        if not wav_files_exist:
+            subprocess.run(['cp', f"perrony_extracted/chapter{i}.wav", 'perrony_ipa'])
 
 if __name__ == "__main__":
-    run()
+    run(True)
