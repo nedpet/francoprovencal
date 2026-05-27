@@ -46,13 +46,13 @@ define intervocalN  n (->) N || V _ V ;
 define fixN         N -> n ;
 
 # 'ng' -> /ŋ/ word-finally
-define finalNG      ng -> ŋ || _ WB ;
+define finalNG      n g -> n ŋ || _ WB ;
 
 # 'ng' -> /ŋg/ elsewhere
-define regNG        ng -> ŋg ;
+define regNG        n g -> n ŋ g ;
 
 # 'nq' -> /ŋk/ 
-define NQ           nq -> ŋk ;
+define NQ           n q -> n ŋ k ;
 
 # 'gn' -> /ɲ/
 define GN           g n -> ɲ ;
@@ -67,7 +67,7 @@ define fixZ         Z -> z ;
 
 # 'ss' -> /s/
 define SS           s s -> S ;
-# define fixS         S -> s ;
+# define fixS       S -> s ;
 
 # 'ç' -> /s/
 define cedilleC     ç -> S ;
@@ -150,8 +150,8 @@ define prevowelOU   o u -> w || _ V ;
 define OU           o u -> U ;
 define fixU         U -> u ;
 
-# 'hu' -> /ɥ/ before a vowel
-define HU          h u -> ɥ || WB _ V ;
+# 'hu' -> /w/ before a vowel
+define HU           h u -> w || WB _ V ;
 
 # 'e' -> /ɛ/ 
 define regE         e -> ɛ || _ C [ C | WB ] ;
