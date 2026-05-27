@@ -2,6 +2,7 @@ import pympi
 import os
 import subprocess
 from foma import FST
+from choose_foma import choose
 
 def foma_file(chapter: int):
     filepath = f"aligned_audios/chapter{chapter}.eaf"
@@ -19,7 +20,6 @@ def foma_file(chapter: int):
         else:
             phonetic = ""
         eaf.add_annotation("FOMA", start, end, phonetic)
-        print(f"value: '{value}', '{phonetic}'")
 
     eaf.to_file(filepath)
     

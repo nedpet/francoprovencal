@@ -1,10 +1,18 @@
 import os
 import subprocess
 from foma import FST
+from choose_foma import choose
 
 def foma_line(line: str, fst: FST) -> str:
     line_lst = line.split("\t")
-    line_lst[3] = next(fst.apply_down(line_lst[3][:-1]), None)
+    sentence = line_lst[3][:-1]
+    words = sentence.split(" ")
+    for i in range(len(words) - 1, -1, -1):
+        if words[i] == "":
+            words.pop(i)
+            continue
+        words[i] = choose(list(fst.apply_down(words[i])))
+    line_lst[3] = " ".join(words)
     return "\t".join(line_lst) + "\n"
 
 def foma_file(filename: str, fst: FST):
