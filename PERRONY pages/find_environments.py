@@ -1,3 +1,7 @@
+# DOESNT WORK AT THE MOMENT!
+# finds all immediate environments of each phone 
+# finds "minimal pairs" through these environments
+
 import os
 
 def process_line(line: str, d: dict[str, list[str]]):

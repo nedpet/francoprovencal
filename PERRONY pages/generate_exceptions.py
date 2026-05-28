@@ -1,5 +1,7 @@
-import os
+# takes all exceptions in exceptions.txt and converts them into a format which can be pasted
+# into g2p.foma and p2p.foma as rules
 
+# converts exceptions.txt into a dictionary
 def get_dict() -> dict[str, str]:
     d = {}
     with open("exceptions.txt", "r", encoding="utf-8-sig") as f:
@@ -10,6 +12,7 @@ def get_dict() -> dict[str, str]:
             line = f.readline()
     return d
 
+# adds spaces between each character, i.e. space_word("hello") = "h e l l o"
 def space_word(word: str):
     return " ".join([char for char in word])
 

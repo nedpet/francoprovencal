@@ -1,8 +1,13 @@
+# takes the tws files in perrony_extracted and copies them over to perrony_ipa, 
+# turning the transcriptions into ipa form. 
+# the wav files are also copied over if you run(False) (not recommended if in there already)
+
 import os
 import subprocess
 from foma import FST
 from choose_foma import choose
 
+# takes a tws line and converts the transcription into ipa form
 def foma_line(line: str, fst: FST) -> str:
     line_lst = line.split("\t")
     sentence = line_lst[3][:-1]
@@ -15,6 +20,7 @@ def foma_line(line: str, fst: FST) -> str:
     line_lst[3] = " ".join(words)
     return "\t".join(line_lst) + "\n"
 
+# takes a tws file in perrony_extracted and copies it to perrony_ipa with transcriptions in ipa
 def foma_file(filename: str, fst: FST):
     with open(f"perrony_extracted/{filename}", "r", encoding="utf-8-sig") as input_file:
         with open(f"perrony_ipa/{filename}", "w", encoding="utf-8-sig") as output_file:

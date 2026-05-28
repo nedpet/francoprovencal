@@ -1,9 +1,13 @@
+# takes an eaf file in aligned_audios and its "Word" transcription tier, then
+# creates a new tier "FOMA" which are the words in IPA according to g2p and p2p
+
 import pympi
 import os
 import subprocess
 from foma import FST
 from choose_foma import choose
 
+# takes a single chapter and adds the ipa tier
 def foma_file(chapter: int):
     filepath = f"aligned_audios/chapter{chapter}.eaf"
     g2p = FST.load('g2p.fomabin')

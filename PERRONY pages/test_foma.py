@@ -1,10 +1,12 @@
-# 
+# tests if any unexpected characters are still in content.txt after putting it through foma
+# expected characters are from the output of the rules in g2p.foma
 
 import os
 import subprocess
 import re
 from foma import FST
 
+# checks if unexpected characters are in this line
 def process_line(line: str, d: dict[str, str]):
     fst = FST.load('g2p.fomabin')
     line = "".join([char for char in line if char.isalpha() or char in ['(', ')', '[', ']', '-', ' ']])
@@ -39,9 +41,6 @@ def run():
                 process_line(line, d)
             line = f.readline()
             i += 1
-    
-    # for word in d:
-    #     print(f"{word}: {d[word]}")
 
 if __name__ == "__main__":
     run()

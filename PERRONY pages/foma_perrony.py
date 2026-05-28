@@ -1,7 +1,12 @@
+# takes a txt file and converts it into ipa according to g2p.foma
+# run foma_words(input_file, output_file)
+
 from foma import FST
 import os
 import subprocess
 
+# takes the spaces within parentheses and adds plus signs to preserve 
+# the words within parentheses as they are usually not fp
 def preserve_parentheses(line: str) -> str:
     i = 0
     while i < len(line):
@@ -15,7 +20,7 @@ def preserve_parentheses(line: str) -> str:
         i += 1
     return line
 
-
+# takes a line and converts it into ipa
 def process_line(line: str, f: FST) -> str:
     line = "".join(char.lower() for char in line if char.isalnum() or char in [' ', '(', ')'])
     line = preserve_parentheses(line)
