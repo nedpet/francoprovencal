@@ -165,7 +165,7 @@ define graveE       è -> e ;
 define fixE         E -> e ;
 
 # 'ei' -> /ej/
-define EI           e i -> ej ;
+define EI           e i -> e j ;
 
 # 'eu' -> /ø/
 define EU           e u -> ø ;
@@ -173,8 +173,14 @@ define EU           e u -> ø ;
 # 'oe' -> /ø/
 define OE           o e -> ø ;
 
+# 'oi' -> /wa/
+define OI           o i -> w a ;
+
 # 'au' -> /o/
 define AU           a u -> o ;
+
+# 'ai' -> /aj/
+define AI           a i -> a j ;
 
 # 'à' -> /a/
 define graveA       à -> a ;
@@ -207,6 +213,9 @@ define ON           o n -> õ ;
 # 'an' -> /ã/
 define AN           a n -> ã ;
 
+# 'ain' -> /ɛ̃/
+define AIN          a i n -> ɛ̃ ;
+
 # -------------- MORPHEMES? --------------
 
 # 't' -> /∅/ word-finally SOMETIMES
@@ -233,9 +242,9 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     DJ .o. J .o. finalR .o. RR .o. uvularR .o. 
     SS .o. softC .o. liaisonS .o. finalS .o. 
     CH .o. LL .o.
-    prevowelOU .o. OU .o. EI .o. 
+    prevowelOU .o. OU .o. EI .o. OI .o.
     finalNG .o. regNG .o. NQ .o. 
-    intervocalN .o. NN .o. EUN .o. UN .o. IN .o. AN .o. ON .o. OEN .o. EN .o. fixN .o.
+    intervocalN .o. NN .o. EUN .o. UN .o. AIN .o. IN .o. AN .o. ON .o. OEN .o. EN .o. fixN .o.
     EU .o. OE .o. 
     intervocalX .o. elsewhereX .o. finalX .o.
     softG .o. hardC .o.
@@ -244,7 +253,7 @@ define G2P ExMap .o. TCH .o. TS .o. DZ .o. TRO .o. CC .o. VV .o. TT .o. PP .o. B
     circA .o. umlautA .o.
     aiguE .o. graveA .o. graveE .o. graveI .o.
     prevowelI .o. 
-    AU .o. 
+    AU .o. AI .o.
     regE .o. RE .o. regU .o.
     fixU .o. fixE .o. ExFix;
 
