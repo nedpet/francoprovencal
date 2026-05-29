@@ -3,6 +3,7 @@
 # pː vs p word-initially:   p
 # bː vs b word-initially:   b
 # ʁ vs ʀ word-initially:    ʁ
+# ave vs a word-finally:    a
 # v vs ʋ vs ∅ intervocally: ʋ
 # n vs ∅ intervocalically:  ∅ 
 # t vs ∅ word-finally:      ∅
@@ -26,8 +27,23 @@ def filter_ave(choices: list[str]):
 def filter_intervocal_v(choices: list[str]):
     if all((not 'ʋ' in word) for word in choices):
         return
+    max_count = max([word.count('ʋ') for word in choices])
     for i in range(len(choices) - 1, -1, -1):
-        if not 'ʋ' in choices[i]:
+        if choices[i].count('ʋ') != max_count:
+            choices.pop(i)
+
+# takes choices with nasals over ones without
+def filter_nasals(choices: list[str]):
+    for nasal in ["ã", "ɛ̃", "õ", "ø̃"]:
+        filter_nasal(choices, nasal)
+
+# takes choices with this nasal over ones without
+def filter_nasal(choices: list[str], nasal: str):
+    if all ((not nasal in word) for word in choices):
+        return
+    max_count = max([word.count(nasal) for word in choices])
+    for i in range(len(choices) - 1, -1, -1):
+        if choices[i].count(nasal) != max_count:
             choices.pop(i)
 
 # takes choices with the least characters to favour the deletion
@@ -49,6 +65,9 @@ def choose(choices: list[str]) -> str:
     filter_p2p(choices)
     filter_ave(choices)
     filter_intervocal_v(choices)
+    filter_nasals(choices)
     result = filter_nulls(choices)
     return result
 
+if __name__ == "__main__":
+    print(choose(["matena", "matɛ̃a"]))
