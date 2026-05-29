@@ -17,8 +17,11 @@ define BB           b b -> b ;
 # 'tt' -> /t/
 define TT           t t -> tː ;
 
-# 'c' -> /s/ (placeholder) before i, e
+# 'c' -> /s/ before i, e
 define softC        c -> S || _ [ e | i | é ] ;
+
+# 'c' -> /ʃ/ before i V 
+define CI           c -> ʃ || _ i V ;
 
 # 'c' -> /k/ elsewhere
 define hardC        c -> k ;
@@ -252,7 +255,7 @@ define G2P ExMap .o. TCH .o. DZ .o. DJ .o. TRO .o. VONT .o. AVE .o. POUS .o.
     CLL .o. GLL .o. FLL .o. OILL .o. ILL .o.
     GN .o. GU .o. QU .o. HU .o.
     DJ .o. J .o. regY .o. finalR .o. RR .o. uvularR .o. 
-    SS .o. softC .o. liaisonS .o. finalS .o. TS .o. 
+    SS .o. CI .o. softC .o. liaisonS .o. finalS .o. TS .o. 
     CH .o. LL .o.
     prevowelOU .o. OU .o. EI .o. OI .o.
     finalNG .o. regNG .o. NQ .o. 
