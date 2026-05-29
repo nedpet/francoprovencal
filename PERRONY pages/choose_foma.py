@@ -14,6 +14,14 @@ def filter_p2p(choices: list[str]):
         if 'pː' in choices[i] or 'bː' in choices[i] or 'ʀ' in choices[i]:
             choices.pop(i)
 
+# takes choices with -a over -ave
+def filter_ave(choices: list[str]):
+    if all((not word.endswith("ave")) for word in choices):
+        return
+    for i in range(len(choices) - 1, -1, -1):
+        if choices[i].endswith("ave"):
+            choices.pop(i)
+
 # takes choices with ʋ over v and ∅
 def filter_intervocal_v(choices: list[str]):
     if all((not 'ʋ' in word) for word in choices):
@@ -39,6 +47,7 @@ def choose(choices: list[str]) -> str:
         return choices[0]
 
     filter_p2p(choices)
+    filter_ave(choices)
     filter_intervocal_v(choices)
     result = filter_nulls(choices)
     return result
