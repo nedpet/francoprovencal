@@ -7,7 +7,7 @@ def get_dict() -> dict[str, str]:
     with open("exceptions.txt", "r", encoding="utf-8-sig") as f:
         line = f.readline()
         while line != "":
-            line_lst = line.split(":")
+            line_lst = line.split(";")
             d[line_lst[0]] = line_lst[1].replace("\n", "")
             line = f.readline()
     return d
