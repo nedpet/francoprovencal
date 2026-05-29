@@ -23,10 +23,10 @@ define S            S -> s ;
 # 'r' -> /j/ intervocalically
 define intervocalR  r -> j || V _ V ;
 
-# 'v' -> /ʋ/ intervocalically SOMETIMES
+# 'v' -> /ʋ/ intervocalically SOMETIMES maybe
 define intervocalV1 v (->) ʋ || V _ V ;
 
-# 'v' -> /∅/ intervocalically SOMETIMES
+# 'v' -> /∅/ intervocalically SOMETIMES look into lenition
 define intervocalV2 v (->) 0 || V _ V ;
 
 # 'ʁ' -> /ʀ/ word-initially SOMETIMES
