@@ -1,8 +1,8 @@
 # phoneme to phone
 
-define V    [ a | e | i | o | u | é | ê | â | ô | œ | ä ] ;
+define V    [ a | e | E | ɛ | ø | i | o | u | y | ã | ɛ̃ | ø̃ | õ ] ;
 
-define C    [ b | c | ç | d | f | g | h | j | k | m | n | p | q | r | s | t | v | x | z ] ;
+define C    [ p | b | m | f | v | n | t | d | t͡s | d͡z | s | S | l | ʃ | ʒ | t͡ʃ | d͡ʒ | ɲ | j | ʎ | k | g | ŋ | ʁ ]  ;
 
 define WB   [ .#. | " " ] ;
 
