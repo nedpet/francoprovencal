@@ -17,10 +17,10 @@ def filter_p2p(choices: list[str]):
 
 # takes choices with -a over -ave
 def filter_ave(choices: list[str]):
-    if all((not word.endswith("ave")) for word in choices):
+    if all((not word.endswith("avɛ")) for word in choices):
         return
     for i in range(len(choices) - 1, -1, -1):
-        if choices[i].endswith("ave"):
+        if choices[i].endswith("avɛ"):
             choices.pop(i)
 
 # takes choices with ʋ over v and ∅
