@@ -10,17 +10,20 @@ from choose_foma import choose
 # takes a single chapter and adds the ipa tier
 def foma_file(chapter: int):
     filepath = f"aligned_audios/chapter{chapter}.eaf"
+    FST.decode = lambda self, text: text.decode('utf-8-sig', errors='ignore')
     g2p = FST.load('g2p.fomabin')
     p2p = FST.load('p2p.fomabin')
 
     eaf = pympi.Elan.Eaf(filepath)
+    if "FOMA" in eaf.get_tier_names():
+        eaf.remove_tier("FOMA")
     eaf.add_tier("FOMA")
     words = eaf.get_annotation_data_for_tier("Word")
 
     for start, end, value, *_ in words:
-        phonemic = next(g2p.apply_down(value), "")
+        phonemic = choose(list(g2p.apply_down(value.lower())))
         if phonemic != "":
-            phonetic = next(p2p.apply_down(phonemic), "")
+            phonetic = choose(list(p2p.apply_down(phonemic)))
         else:
             phonetic = ""
         eaf.add_annotation("FOMA", start, end, phonetic)
