@@ -8,20 +8,14 @@ define WB   [ .#. | " " ] ;
 
 # -------------- CONSONANTS --------------
 
-# 'pp' -> /p/
-define PP           p p -> p ;
-
 # 'bb' -> /b/
 define BB           b b -> b ;
 
-# 'tt' -> /t/
-define TT           t t -> tː ;
+# 'c' -> /ʃ/ before i V 
+define CI           c -> ʃ || _ i V ;
 
 # 'c' -> /s/ before i, e
 define softC        c -> S || _ [ e | i | é ] ;
-
-# 'c' -> /ʃ/ before i V 
-define CI           c -> ʃ || _ i V ;
 
 # 'c' -> /k/ elsewhere
 define hardC        c -> k ;
@@ -29,14 +23,47 @@ define hardC        c -> k ;
 # 'cc' -> /k/
 define CC           c c -> k ;
 
-# 'qu' -> /k/
-define QU           q u -> k ;
+# 'ch' -> /ʃ/
+define CH           c h -> ʃ ;
+
+# 'tch' -> /t͡ʃ/
+define TCH          t c h -> t͡ʃ ;
+
+# 'ç' -> /s/
+define cedilleC     ç -> S ;
 
 # 'g' -> /ʒ/ before i, e
 define softG        g -> ʒ || _ [ e | i | é ] ;
 
-# 'gu' -> /g/ before i, e
-define GU           g u -> g || _ [ e | i | é ] ;
+# 'gn' -> /ɲ/
+define GN           g n -> ɲ ;
+
+# 'h' -> /∅/
+define silentH      h -> 0 ;
+
+# 'j' -> /ʒ/
+define J            j -> ʒ ;
+
+# 'dj' -> /d͡ʒ/      
+define DJ           d j -> d͡ʒ ;
+
+# 'll' -> /l/
+define LL           l l -> l ;
+
+# 'ill' -> /ʎ/
+define ILL          i l l -> iʎ || [C | WB] _ ;
+
+# 'cll' -> /kʎ/
+define CLL          c l l -> kʎ ;
+
+# 'gll' -> /gʎ/
+define GLL          g l l -> gʎ ;
+
+# 'fll' -> /fʎ/
+define FLL          f l l -> fʎ ;
+
+# 'oill' -> /oʎ/
+define OILL         o i l l -> oʎ ;
 
 # 'mm' -> /m/
 define MM           m m -> m ;
@@ -57,11 +84,20 @@ define regNG        n g -> n ŋ g ;
 # 'nq' -> /ŋk/ 
 define NQ           n q -> n ŋ k ;
 
-# 'gn' -> /ɲ/
-define GN           g n -> ɲ ;
+# 'pp' -> /p/
+define PP           p p -> p ;
 
-# 'vv' -> /v/
-define VV           v v -> v ;
+# 'qu' -> /k/
+define QU           q u -> k ;
+
+# 'r' -> /∅/ word-finally
+define finalR       r (->) 0 || _ WB ;
+
+# 'r' -> /ʁ/ elsewhere
+define uvularR      r -> ʁ ;
+
+# 'rr' -> /ʁ/
+define RR           r r -> ʁ ;
 
 # 's' -> /∅/ word-finally, and sometimes liaison
 define finalS       s -> 0 || _ WB ;
@@ -72,8 +108,21 @@ define fixZ         Z -> z ;
 define SS           s s -> S ;
 # define fixS       S -> s ;
 
-# 'ç' -> /s/
-define cedilleC     ç -> S ;
+# 's' -> /ʒ/ in the verb root pous-
+define POUS         s -> ʒ || WB p o u _ ;
+
+# 'et' -> /ɛt/ word-finally
+define ET           e t -> ɛ T || _ WB ;
+define fixT         T -> tː ;
+
+# 't' -> /∅/ word-finally SOMETIMES
+define finalT       t (->) 0 || _ WB ;
+
+# 'tt' -> /t/
+define TT           t t -> tː ;
+
+# 'vv' -> /v/
+define VV           v v -> v ;
 
 # 'x' -> /ks/ intervocalically
 define intervocalX  x -> k s || V _ V ;
@@ -84,20 +133,11 @@ define elsewhereX   x -> s || _ C ;
 # 'x' -> /0/ word-finally
 define finalX       x -> 0 || _ WB ;
 
+# 'y' -> /j/
+define regY         y -> j ;
+
 # 'z' -> /∅/ word-finally
 define finalZ       z -> 0 || _ WB ;
-
-# 'ch' -> /ʃ/
-define CH           c h -> ʃ ;
-
-# 'tch' -> /t͡ʃ/
-define TCH          t c h -> t͡ʃ ;
-
-# 'j' -> /ʒ/
-define J            j -> ʒ ;
-
-# 'dj' -> /d͡ʒ/      
-define DJ           d j -> d͡ʒ ;
 
 # 'ts' -> /t͡s/
 define TS           t s -> t͡s ;
@@ -105,59 +145,22 @@ define TS           t s -> t͡s ;
 # 'dz' -> /d͡z/
 define DZ           d z -> d͡z ;
 
-# 'r' -> /ʁ/ elsewhere
-define uvularR      r -> ʁ ;
-
-# 'r' -> /∅/ word-finally
-define finalR       r (->) 0 || _ WB ;
-
-# 'rr' -> /ʁ/
-define RR           r r -> ʁ ;
-
-# 'h' -> /∅/
-define silentH      h -> 0 ;
-
-# 'll' -> /l/
-define LL           l l -> l ;
-
-# 'ill' -> /ʎ/
-define ILL          i l l -> iʎ || [C | WB] _ ;
-
-# 'cll' -> /kʎ/
-define CLL          c l l -> kʎ ;
-
-# 'gll' -> /gʎ/
-define GLL          g l l -> gʎ ;
-
-# 'fll' -> /fʎ/
-define FLL          f l l -> fʎ ;
-
-# 'oill' -> /oʎ/
-define OILL         o i l l -> oʎ ;
-
-# 'y' -> /j/
-define regY         y -> j ;
-
 # -------------- VOWELS --------------
 
-# 'i' -> /j/ before a vowel
-define prevowelI    i -> j || _ V ;
+# 'à' -> /a/
+define graveA       à -> a ;
 
-# 'ì' -> /i/ 
-define graveI       ì -> i ;
+# 'â' -> /a/
+define circA        â -> a ;
 
-# 'u' -> /y/ elsewhere
-define regU         u -> y ;
+# 'ä' -> /a/
+define umlautA      ä -> a ;
 
-# 'ou' -> /w/ before a vowel
-define prevowelOU   o u -> w || _ V ;
+# 'ai' -> /aj/
+define AI           a i -> a j ;
 
-# 'ou' -> /u/ elsewhere
-define OU           o u -> U ;
-define fixU         U -> u ;
-
-# 'hu' -> /w/ before a vowel
-define HU           h u -> w || WB _ V ;
+# 'au' -> /o/
+define AU           a u -> o ;
 
 # 'e' -> /ɛ/ 
 define regE         e -> ɛ || _ C [ C | WB ] ;
@@ -175,27 +178,36 @@ define EI           e i -> e j ;
 # 'eu' -> /ø/
 define EU           e u -> ø ;
 
+# 'i' -> /j/ before a vowel
+define prevowelI    i -> j || _ V ;
+
+# 'ì' -> /i/ 
+define graveI       ì -> i ;
+
+# 'o' -> /∅/ in -TRO 
+define TRO          o -> ə || t r _ WB ;
+
 # 'oe' -> /ø/
 define OE           o e -> ø ;
 
 # 'oi' -> /wa/
 define OI           o i -> w a ;
 
-# 'au' -> /o/
-define AU           a u -> o ;
+# 'ou' -> /w/ before a vowel
+define prevowelOU   o u -> w || _ V ;
 
-# 'ai' -> /aj/
-define AI           a i -> a j ;
+# 'ou' -> /u/ elsewhere
+define OU           o u -> U ;
+define fixU         U -> u ;
 
-# 'à' -> /a/
-define graveA       à -> a ;
+# 'u' -> /y/ elsewhere
+define regU         u -> y ;
 
-# 'â' -> /a/
-define circA        â -> a ;
+# 'gu' -> /g/ before i, e
+define GU           g u -> g || _ [ e | i | é ] ;
 
-# 'ä' -> /a/
-define umlautA      ä -> a ;
-
+# 'hu' -> /w/ before a vowel
+define HU           h u -> w || WB _ V ;
 
 # 'in' -> /ɛ̃/
 define IN           i n -> ɛ̃ ;
@@ -232,21 +244,8 @@ define AVE          v e (->) 0 || a _ WB ;
 # 'ave' -> /avɛ/ OTHERWISE
 define AVE2         e -> ɛ || a v _ WB ;
 
-# 's' -> /ʒ/ in the verb root pous-
-define POUS         s -> ʒ || WB p o u _ ;
-
-# 't' -> /∅/ word-finally SOMETIMES
-define finalT       t (->) 0 || _ WB ;
-
-# 'o' -> /∅/ in -TRO 
-define TRO          o -> ə || t r _ WB ;
-
 # 'tel' -> /ti/ word-finally
 define TEL          t e l -> t i || _ WB ;
-
-# 'et' -> /ɛt/ word-finally
-define ET           e t -> ɛ T || _ WB ;
-define fixT         T -> tː ;
 
 # -------------- G2P --------------
 
