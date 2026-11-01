@@ -26,9 +26,6 @@ define CC           c c -> k ;
 # 'ch' -> /ʃ/
 define CH           c h -> ʃ ;
 
-# 'tch' -> /t͡ʃ/
-define TCH          t c h -> t͡ʃ ;
-
 # 'ç' -> /s/
 define cedilleC     ç -> S ;
 
@@ -43,9 +40,6 @@ define silentH      h -> 0 ;
 
 # 'j' -> /ʒ/
 define J            j -> ʒ ;
-
-# 'dj' -> /d͡ʒ/      
-define DJ           d j -> d͡ʒ ;
 
 # 'll' -> /l/
 define LL           l l -> l ;
@@ -69,20 +63,16 @@ define OILL         o i l l -> oʎ ;
 define MM           m m -> m ;
 
 # 'nn' -> /n/
-define NN           n n -> N ;
+define NN           n n -> n ;
 
-# 'n' -> /n/ intervocalically
-define intervocalN  n (->) N || V _ V ;
-define fixN         N -> n ;
+# 'ng' -> /n/ word-finally
+define finalNG      n g -> n || _ WB ;
 
-# 'ng' -> /ŋ/ word-finally
-define finalNG      n g -> n ŋ || _ WB ;
+# 'ng' -> /ng/ elsewhere
+define regNG        n g -> n g ;
 
-# 'ng' -> /ŋg/ elsewhere
-define regNG        n g -> n ŋ g ;
-
-# 'nq' -> /ŋk/ 
-define NQ           n q -> n ŋ k ;
+# 'nq' -> /nk/ 
+define NQ           n q -> n k ;
 
 # 'pp' -> /p/
 define PP           p p -> p ;
@@ -139,12 +129,6 @@ define regY         y -> j ;
 # 'z' -> /∅/ word-finally
 define finalZ       z -> 0 || _ WB ;
 
-# 'ts' -> /t͡s/
-define TS           t s -> t͡s ;
-
-# 'dz' -> /d͡z/
-define DZ           d z -> d͡z ;
-
 # -------------- VOWELS --------------
 
 # 'à' -> /a/
@@ -158,6 +142,9 @@ define umlautA      ä -> a ;
 
 # 'ai' -> /aj/
 define AI           a i -> a j ;
+
+# 'ain' -> /ɛn/
+define AIN          a i  -> ɛ || _ n ;
 
 # 'au' -> /o/
 define AU           a u -> o ;
@@ -178,6 +165,9 @@ define EI           e i -> e j ;
 # 'eu' -> /ø/
 define EU           e u -> ø ;
 
+# 'in' -> /ɛn/
+define IN           i -> ɛ || _ n ;
+
 # 'i' -> /j/ before a vowel
 define prevowelI    i -> j || _ V ;
 
@@ -190,6 +180,9 @@ define TRO          o -> ə || t r _ WB ;
 # 'oe' -> /ø/
 define OE           o e -> ø ;
 
+# 'oen' -> /wɛ/
+define OEN          o e -> w ɛ || _ n ;
+
 # 'oi' -> /wa/
 define OI           o i -> w a ;
 
@@ -200,6 +193,9 @@ define prevowelOU   o u -> w || _ V ;
 define OU           o u -> U ;
 define fixU         U -> u ;
 
+# 'un' -> /øn/
+define UN           u -> ø || _ n ;
+
 # 'u' -> /y/ elsewhere
 define regU         u -> y ;
 
@@ -209,34 +205,7 @@ define GU           g u -> g || _ [ e | i | é ] ;
 # 'hu' -> /w/ before a vowel
 define HU           h u -> w || WB _ V ;
 
-# 'in' -> /ɛ̃/
-define IN           i n -> ɛ̃ ;
-
-# 'un' -> /ø̃/
-define UN           u n -> ø̃ ;
-
-# 'en' -> /ɛ̃/
-define EN           e n -> ɛ̃ ;
-
-# 'eun' -> /ø̃/
-define EUN          e u n -> ø̃ ;
-
-# 'oen' -> /wɛ̃/
-define OEN          o e n -> w ɛ̃ ;
-
-# 'on' -> /õ/
-define ON           o n -> õ ;
-
-# 'an' -> /ã/
-define AN           a n -> ã ;
-
-# 'ain' -> /ɛ̃/
-define AIN          a i n -> ɛ̃ ;
-
 # -------------- MORPHEMES? --------------
-
-# 'vont' -> /ʋõ/ word-finally
-define VONT         v o n t -> ʋ õ || _ WB ;
 
 # 'ave' -> /a/ word-finally SOMETIMES
 define AVE          v e (->) 0 || a _ WB ;
@@ -252,16 +221,16 @@ define TEL          t e l -> t i || _ WB ;
 define ExMap [ a v e i r -> "EX_aveir" || WB _ WB .o. h i v e r -> "EX_hiver" || WB _ WB .o. p e r -> "EX_per" || WB _ WB .o. t e t e s -> "EX_tetes" || WB _ WB .o. c o u t e ́ -> "EX_couté" || WB _ WB .o. p e i l l o s -> "EX_peillos" || WB _ WB .o. c o u p s -> "EX_coups" || WB _ WB .o. p r e m i e r e -> "EX_premiere" || WB _ WB .o. s u -> "EX_su" || WB _ WB .o. d e n t s -> "EX_dents" || WB _ WB .o. d z e n s -> "EX_dzens" || WB _ WB .o. s o p a t a ̂ -> "EX_sopatâ" || WB _ WB .o. e s t -> "EX_est" || WB _ WB .o. e t -> "EX_et" || WB _ WB .o. t s a m o s -> "EX_tsamos" || WB _ WB .o. t r e i s -> "EX_treis" || WB _ WB .o. c h o u e ́ s -> "EX_choués" || WB _ WB .o. d i e s -> "EX_dies" || WB _ WB .o. v i n g t -> "EX_vingt" || WB _ WB .o. t r e n t a -> "EX_trenta" || WB _ WB .o. q u a r e n t a -> "EX_quarenta" || WB _ WB .o. c i n q u a n t a -> "EX_cinquanta" || WB _ WB .o. c h o u e s s a n t a -> "EX_chouessanta" || WB _ WB .o. s e t a n t a -> "EX_setanta" || WB _ WB .o. h u i t a n t a -> "EX_huitanta" || WB _ WB .o. n o n a n t a -> "EX_nonanta" || WB _ WB .o. m o u s t r o -> "EX_moustro" || WB _ WB .o. p o u e r e -> "EX_pouere" || WB _ WB .o. t e t a -> "EX_teta" || WB _ WB .o. f r é r e -> "EX_frére" || WB _ WB .o. b r a s -> "EX_bras" || WB _ WB .o. s o v e n t -> "EX_sovent" || WB _ WB .o. t r a c a s -> "EX_tracas" || WB _ WB ] ;
 define ExFix [ "EX_aveir" -> a v e j || WB _ WB .o. "EX_hiver" -> i v i ʁ || WB _ WB .o. "EX_per" -> p ə || WB _ WB .o. "EX_tetes" -> t i t ə || WB _ WB .o. "EX_couté" -> k u t i || WB _ WB .o. "EX_peillos" -> p i d j o || WB _ WB .o. "EX_coups" -> k u || WB _ WB .o. "EX_premiere" -> p ʁ ə m i || WB _ WB .o. "EX_su" -> ʃ y || WB _ WB .o. "EX_dents" -> d i || WB _ WB .o. "EX_dzens" -> d ͡ z i || WB _ WB .o. "EX_sopatâ" -> ʃ o p a t a || WB _ WB .o. "EX_est" -> ɛ || WB _ WB .o. "EX_et" -> e || WB _ WB .o. "EX_tsamos" -> t s a m o ʃ || WB _ WB .o. "EX_treis" -> t r i || WB _ WB .o. "EX_choués" -> ʃ w i || WB _ WB .o. "EX_dies" -> d j ə || WB _ WB .o. "EX_vingt" -> v ø ̃ t || WB _ WB .o. "EX_trenta" -> t ʁ ɛ n t a || WB _ WB .o. "EX_quarenta" -> k a ʁ ɛ n t a || WB _ WB .o. "EX_cinquanta" -> s ə n k a n t a || WB _ WB .o. "EX_chouessanta" -> ʃ u s a n t a || WB _ WB .o. "EX_setanta" -> s t a n t a || WB _ WB .o. "EX_huitanta" -> w i t a n t a || WB _ WB .o. "EX_nonanta" -> n o n a n t a || WB _ WB .o. "EX_moustro" -> m u ʃ t r ə || WB _ WB .o. "EX_pouere" -> p w i || WB _ WB .o. "EX_teta" -> t i t a || WB _ WB .o. "EX_frére" -> f ʁ i || WB _ WB .o. "EX_bras" -> b ʁ e || WB _ WB .o. "EX_sovent" -> s o v ɛ n || WB _ WB .o. "EX_tracas" -> t r a k a s || WB _ WB ] ;
 
-define G2P ExMap .o. TCH .o. DZ .o. DJ .o. TRO .o. VONT .o. AVE .o. AVE2 .o. POUS .o. 
+define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o. 
     CC .o. VV .o. TT .o. PP .o. BB .o. MM .o. 
     CLL .o. GLL .o. FLL .o. OILL .o. ILL .o.
     GN .o. GU .o. QU .o. HU .o.
     DJ .o. J .o. regY .o. finalR .o. RR .o. uvularR .o. 
-    SS .o. CI .o. softC .o. liaisonS .o. finalS .o. TS .o. 
+    SS .o. CI .o. softC .o. liaisonS .o. finalS .o.  
     CH .o. LL .o.
     prevowelOU .o. OU .o. EI .o. OI .o.
     finalNG .o. regNG .o. NQ .o. 
-    intervocalN .o. NN .o. EUN .o. UN .o. AIN .o. IN .o. AN .o. ON .o. OEN .o. EN .o. fixN .o.
+    NN .o. UN .o. AIN .o. IN .o. OEN .o. 
     EU .o. OE .o. 
     intervocalX .o. elsewhereX .o. finalX .o.
     softG .o. hardC .o.
