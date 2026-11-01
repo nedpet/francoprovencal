@@ -225,7 +225,7 @@ define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o.
     CC .o. VV .o. TT .o. PP .o. BB .o. MM .o. 
     CLL .o. GLL .o. FLL .o. OILL .o. ILL .o.
     GN .o. GU .o. QU .o. HU .o.
-    DJ .o. J .o. regY .o. finalR .o. RR .o. uvularR .o. 
+    J .o. regY .o. finalR .o. RR .o. uvularR .o. 
     SS .o. CI .o. softC .o. liaisonS .o. finalS .o.  
     CH .o. LL .o.
     prevowelOU .o. OU .o. EI .o. OI .o.
