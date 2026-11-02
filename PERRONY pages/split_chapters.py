@@ -17,6 +17,45 @@ def to_roman(num):
             num -= value
     return result
 
+def fr_to_fp(num: str):
+    translations = [
+        ('soixante-dix', 'setanta'),
+        ('soixante-onze', 'setanta-et-un'),
+        ('soixante-douze', 'setanta-dous'),
+        ('soixante-treize', 'setanta-treis'),
+        ('soixante-quatorze', 'setanta-quatro'),
+        ('soixante-quinze', 'setanta-cinq'),
+        ('soixante-seize', 'setanta-choués'),
+        ('quatre-vingt-un', 'huitanta-et-un'),
+        ('quatre-vingt-dix', 'nonanta'),
+        ('quatre-vingt-onze', 'nonanta-et-un'),
+        ('quatre-vingt-douze', 'nonanta-dous'),
+        ('quatre-vingt-treize', 'nonanta-treis'),
+        ('quatre-vingt-quatorze', 'nonanta-quatro'),
+        ('quatre-vingt-quinze', 'nonanta-cinq'),
+        ('quatre-vingt-seize', 'nonanta-choués'),
+        ('quatre-vingts', 'huitanta'),
+        ('un', 'un'),
+        ('deux', 'dous'),
+        ('trois', 'treis'),
+        ('quatre', 'quatro'),
+        ('six', 'choués'),
+        ('sept', 'sat'),
+        ('huit', 'huet'),
+        ('nou', 'nu'),
+        ('dix', 'dies'),
+        ('douze', 'doze'),
+        ('treize', 'treze'),
+        ('trente', 'trenta'),
+        ('quarante', 'quarenta'),
+        ('cinquante', 'cinquanta'),
+        ('soixante', 'chouessanta'),
+        ('mille', 'meulle')
+    ]
+    for translation in translations:
+        num = num.replace(translation[0], translation[1])
+    return num
+
 def process_line(line: str, strip_punc: bool) -> str:
     if strip_punc:
         line = ''.join(c for c in line if c.isalnum() or c in [" ", "\n", "\t"])
@@ -27,7 +66,7 @@ def process_line(line: str, strip_punc: bool) -> str:
             while j < len(line) and line[j].isdigit():
                 j += 1
             remaining = line[j:]
-            line = line[:i] + "\n" + num2words(int(line[i:j]), lang='fr') + "\n" + remaining
+            line = line[:i] + fr_to_fp(num2words(int(line[i:j]), lang='fr')) + remaining
             i = line.find(remaining)
         else:
             i += 1
@@ -63,4 +102,4 @@ def split_chapters(start_chapter: int, end_chapter: int):
                         f3.write(process_line(line, True))
 
 if __name__ == "__main__":
-    split_chapters(20, 33)
+    split_chapters(1, 33)
