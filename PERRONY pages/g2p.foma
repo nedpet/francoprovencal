@@ -50,14 +50,8 @@ define ILL          i l l -> iʎ || [C | WB] _ ;
 # 'cll' -> /kʎ/
 define CLL          c l l -> kʎ ;
 
-# 'gll' -> /gʎ/
-define GLL          g l l -> gʎ ;
-
-# 'fll' -> /fʎ/
-define FLL          f l l -> fʎ ;
-
-# 'oill' -> /oʎ/
-define OILL         o i l l -> oʎ ;
+# 'gll' -> /gʎ/, 'fll' -> /fʎ/, 'oill' -> /oʎ/
+define otherLL      l l -> ʎ || [g | f | o i] _ ;
 
 # 'mm' -> /m/
 define MM           m m -> m ;
@@ -68,17 +62,11 @@ define NN           n n -> n ;
 # 'ng' -> /n/ word-finally
 define finalNG      n g -> n || _ WB ;
 
-# 'ng' -> /ng/ elsewhere
-define regNG        n g -> n g ;
-
-# 'nq' -> /nk/ 
-define NQ           n q -> n k ;
-
 # 'pp' -> /p/
 define PP           p p -> p ;
 
-# 'qu' -> /k/
-define QU           q u -> k ;
+# 'q' -> /k/
+define Q            q -> k ;
 
 # 'r' -> /∅/ word-finally
 define finalR       r (->) 0 || _ WB ;
@@ -92,18 +80,18 @@ define RR           r r -> ʁ ;
 # 's' -> /∅/ word-finally, and sometimes liaison
 define finalS       s -> 0 || _ WB ;
 define liaisonS     s (->) Z || _ WB V ;
+define intervocalS  s (->) Z || V _ V ;
 define fixZ         Z -> z ;
 
 # 'ss' -> /s/
 define SS           s s -> S ;
-# define fixS       S -> s ;
+define fixS         S -> s ;
 
 # 's' -> /ʒ/ in the verb root pous-
 define POUS         s -> ʒ || WB p o u _ ;
 
-# 'et' -> /ɛt/ word-finally
-define ET           e t -> ɛ T || _ WB ;
-define fixT         T -> tː ;
+# 'et' -> /ɛtː/ word-finally
+define ET           t -> tː || e _ WB ;
 
 # 't' -> /∅/ word-finally SOMETIMES
 define finalT       t (->) 0 || _ WB ;
@@ -118,7 +106,7 @@ define VV           v v -> v ;
 define intervocalX  x -> k s || V _ V ;
 
 # 'x' -> /s/ before a consonant
-define elsewhereX   x -> s || _ C ;
+define regX         x -> s || _ C ;
 
 # 'x' -> /0/ word-finally
 define finalX       x -> 0 || _ WB ;
@@ -152,24 +140,19 @@ define AU           a u -> o ;
 # 'e' -> /ɛ/ 
 define regE         e -> ɛ || _ C [ C | WB ] ;
 
-# 'ʁe' -> /ʁɛ/
-define RE           ʁ e -> ʁ ɛ ;
-
 # 'é' -> /e/ 
 define aiguE        é -> E ;
-define graveE       è -> e ;
+define graveE       è -> ɛ ;
+define fixE         E -> e ;
 
 # 'ei' -> /ej/
-define EI           e i -> e j ;
+define EI           e i -> E j ;
 
 # 'eu' -> /ø/
 define EU           e u -> ø ;
 
 # 'in' -> /ɛn/
 define IN           i -> ɛ || _ n ;
-
-# 'i' -> /j/ before a vowel
-define prevowelI    i -> j || _ V ;
 
 # 'ì' -> /i/ 
 define graveI       ì -> i ;
@@ -180,14 +163,16 @@ define TRO          o -> ə || t r _ WB ;
 # 'oe' -> /ø/
 define OE           o e -> ø ;
 
-# 'oen' -> /wɛ/
-define OEN          o e -> w ɛ || _ n ;
+# 'oen' -> /wɛn/ syllable-initially, /uɛn/ otherwise 
+define OEN          o e -> w ɛ || [WB | V] _ n ;
+define OEN2         o e -> u ɛ || C _ n ;
 
-# 'oi' -> /wa/
-define OI           o i -> w a ;
+# 'oi' -> /wa/ syllable-initially, /ua/ otherwise
+define OI           o i -> w a || [WB | V] _ ;
+define OI2          o i -> u a || C _ ;
 
-# 'ou' -> /w/ before a vowel
-define prevowelOU   o u -> w || _ V ;
+# 'ou' -> /w/ before a vowel and syllable-initially
+define prevowelOU   o u -> w || [WB | V] _ V ;
 
 # 'ou' -> /u/ elsewhere
 define OU           o u -> U ;
@@ -199,8 +184,11 @@ define UN           u -> ø || _ n ;
 # 'u' -> /y/ elsewhere
 define regU         u -> y ;
 
-# 'gu' -> /g/ before i, e
-define GU           g u -> g || _ [ e | i | é ] ;
+# 'u' -> /∅/ after Q
+define QU           u -> 0 || q _ ;
+
+# 'u' -> /0/ after G and before i, e
+define GU           u -> 0 || g _ [ e | i | é ] ;
 
 # 'hu' -> /w/ before a vowel
 define HU           h u -> w || WB _ V ;
@@ -216,6 +204,9 @@ define AVE2         e -> ɛ || a v _ WB ;
 # 'tel' -> /ti/ word-finally
 define TEL          t e l -> t i || _ WB ;
 
+# 'ʁe' -> /ʁɛ/
+define RE           ʁ e -> ʁ ɛ ;
+
 # -------------- G2P --------------
 
 define ExMap [ a v e i r -> "EX_aveir" || WB _ WB .o. h i v e r -> "EX_hiver" || WB _ WB .o. p e r -> "EX_per" || WB _ WB .o. t e t e s -> "EX_tetes" || WB _ WB .o. c o u t e ́ -> "EX_couté" || WB _ WB .o. p e i l l o s -> "EX_peillos" || WB _ WB .o. c o u p s -> "EX_coups" || WB _ WB .o. p r e m i e r e -> "EX_premiere" || WB _ WB .o. s u -> "EX_su" || WB _ WB .o. d e n t s -> "EX_dents" || WB _ WB .o. d z e n s -> "EX_dzens" || WB _ WB .o. s o p a t a ̂ -> "EX_sopatâ" || WB _ WB .o. e s t -> "EX_est" || WB _ WB .o. e t -> "EX_et" || WB _ WB .o. t s a m o s -> "EX_tsamos" || WB _ WB .o. t r e i s -> "EX_treis" || WB _ WB .o. c h o u e ́ s -> "EX_choués" || WB _ WB .o. d i e s -> "EX_dies" || WB _ WB .o. v i n g t -> "EX_vingt" || WB _ WB .o. t r e n t a -> "EX_trenta" || WB _ WB .o. q u a r e n t a -> "EX_quarenta" || WB _ WB .o. c i n q u a n t a -> "EX_cinquanta" || WB _ WB .o. c h o u e s s a n t a -> "EX_chouessanta" || WB _ WB .o. s e t a n t a -> "EX_setanta" || WB _ WB .o. h u i t a n t a -> "EX_huitanta" || WB _ WB .o. n o n a n t a -> "EX_nonanta" || WB _ WB .o. m o u s t r o -> "EX_moustro" || WB _ WB .o. p o u e r e -> "EX_pouere" || WB _ WB .o. t e t a -> "EX_teta" || WB _ WB .o. f r é r e -> "EX_frére" || WB _ WB .o. b r a s -> "EX_bras" || WB _ WB .o. s o v e n t -> "EX_sovent" || WB _ WB .o. t r a c a s -> "EX_tracas" || WB _ WB ] ;
@@ -223,24 +214,24 @@ define ExFix [ "EX_aveir" -> a v e j || WB _ WB .o. "EX_hiver" -> i v i ʁ || WB
 
 define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o. 
     CC .o. VV .o. TT .o. PP .o. BB .o. MM .o. 
-    CLL .o. GLL .o. FLL .o. OILL .o. ILL .o.
-    GN .o. GU .o. QU .o. HU .o.
+    CLL .o. otherLL .o. ILL .o.
+    GN .o. GU .o. QU .o. Q .o. HU .o.
     J .o. regY .o. finalR .o. RR .o. uvularR .o. 
-    SS .o. CI .o. softC .o. liaisonS .o. finalS .o.  
+    SS .o. CI .o. softC .o. liaisonS .o. intervocalS .o. finalS .o. fixS .o.
     CH .o. LL .o.
-    prevowelOU .o. OU .o. EI .o. OI .o.
-    finalNG .o. regNG .o. NQ .o. 
-    NN .o. UN .o. AIN .o. IN .o. OEN .o. 
+    prevowelOU .o. OU .o. EI .o. OI .o. OI2 .o.
+    finalNG .o.
+    NN .o. UN .o. AIN .o. IN .o. OEN .o. OEN2 .o.
     EU .o. OE .o. 
-    intervocalX .o. elsewhereX .o. finalX .o.
+    intervocalX .o. regX .o. finalX .o.
     softG .o. hardC .o.
-    TEL .o. ET .o. finalT .o. fixT .o. finalZ .o. fixZ .o.
+    TEL .o. ET .o. finalT .o. finalZ .o. fixZ .o.
     cedilleC .o. silentH .o.
     circA .o. umlautA .o.
-    aiguE .o. graveA .o. graveE .o. graveI .o.
-    regU .o. fixU .o. prevowelI .o. 
+    aiguE .o. graveA .o. graveE .o. graveI .o. 
+    regU .o. fixU .o. 
     AU .o. AI .o.
-    regE .o. RE .o. 
+    regE .o. RE .o. fixE .o.
     ExFix;
 
 regex G2P;
