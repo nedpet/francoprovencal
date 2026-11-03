@@ -1,10 +1,16 @@
 # grapheme to phoneme
 
-define V    [ a | e | i | o | u | y | é | ê | â | ô | œ | ä ] ;
+define V    [ a | e | ɛ | i | o | ɔ | ø | u | y | à | â | é | è | ë | ì | ò | ù ] ;
 
-define C    [ b | c | ç | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v | w | x | z ] ;
+define C    [ b | c | ç | d | f | g | h | j | k | l | ʎ | m | n | ɲ | p | q | r | ʁ | s | ʃ | t | v | w | x | z | ʒ ] ;
 
 define WB   [ .#. | " " ] ;
+
+define highfrontV    [ e | i | é | è | ë | ì | ɛ | ø ] ;
+
+define Sonor    [ n | m | ɲ | ʁ | l | ʎ | j ] ;
+
+define Stop     [ b | p | t | d | k | g ] ;
 
 # -------------- CONSONANTS --------------
 
@@ -15,7 +21,7 @@ define BB           b b -> b ;
 define CI           c -> ʃ || _ i V ;
 
 # 'c' -> /s/ before i, e
-define softC        c -> S || _ [ e | i | é ] ;
+define softC        c -> S || _ highfrontV ;
 
 # 'c' -> /k/ elsewhere
 define hardC        c -> k ;
@@ -30,7 +36,7 @@ define CH           c h -> ʃ ;
 define cedilleC     ç -> S ;
 
 # 'g' -> /ʒ/ before i, e
-define softG        g -> ʒ || _ [ e | i | é ] ;
+define softG        g -> ʒ || _ highfrontV ;
 
 # 'gn' -> /ɲ/
 define GN           g n -> ɲ ;
@@ -89,25 +95,23 @@ define fixS         S -> s ;
 define POUS         s -> ʒ || WB p o u _ ;
 
 # 'et' -> /ɛtː/ word-finally
-define ET           t -> tː || e _ WB ;
+define ET           t -> T || e _ WB ;
 
 # 't' -> /∅/ word-finally SOMETIMES
 define finalT       t (->) 0 || _ WB ;
 
-# 'tt' -> /t/
-define TT           t t -> tː ;
+# 'tt' -> /tː/
+define TT           t t -> T ;
+define fixT         T -> tː ;
 
 # 'vv' -> /v/
 define VV           v v -> v ;
 
-# 'x' -> /ks/ intervocalically
-define intervocalX  x -> k s || V _ V ;
-
-# 'x' -> /s/ before a consonant
-define regX         x -> s || _ C ;
-
 # 'x' -> /0/ word-finally
 define finalX       x -> 0 || _ WB ;
+
+# 'x' -> /s/ elsewhere
+define regX         x -> k s ;
 
 # 'y' -> /j/
 define regY         y -> j ;
@@ -135,13 +139,19 @@ define AIN          a i  -> ɛ || _ n ;
 # 'au' -> /o/
 define AU           a u -> o ;
 
-# 'e' -> /ɛ/ 
-define regE         e -> ɛ || _ C [ C | WB ] ;
+# 'e' -> /ɛ/ in closed syllables 
+define regE         e -> ɛ || _ [ C WB | Sonor C | s C | Stop Stop ] ;
 
 # 'é' -> /e/ 
 define aiguE        é -> E ;
-define graveE       è -> ɛ ;
+
 define fixE         E -> e ;
+
+# 'è' -> /ɛ/
+define graveE       è -> ɛ ;
+
+# 'ë' -> /i/
+define umlautE      ë -> i ;
 
 # 'ei' -> /ej/
 define EI           e i -> E j ;
@@ -157,6 +167,12 @@ define graveI       ì -> i ;
 
 # 'o' -> /∅/ in -TRO 
 define TRO          o -> ə || t r _ WB ;
+
+# 'o' -> /ɔ/ in closed syllables 
+define regO         o -> ɔ || _ [ C WB | Sonor C | s C | Stop Stop ] ;
+
+# 'ò' -> /o/
+define graveO       ò -> o ;
 
 # 'oe' -> /ø/
 define OE           o e -> ø ;
@@ -187,6 +203,9 @@ define QU           u -> 0 || q _ ;
 
 # 'u' -> /0/ after G and before i, e
 define GU           u -> 0 || g _ [ e | i | é ] ;
+
+# 'ù' -> /y/
+define graveU       ù -> y ;
 
 # 'hu' -> /w/ before a vowel
 define HU           h u -> w || WB _ V ;
@@ -233,15 +252,15 @@ define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o.
     finalNG .o.
     NN .o. UN .o. AIN .o. IN .o. OEN .o. OEN2 .o.
     EU .o. OE .o. 
-    intervocalX .o. regX .o. finalX .o.
+    finalX .o. regX .o. 
     softG .o. hardC .o. silentH .o. vowelH .o. 
     TEL .o. ET .o. finalT .o. finalZ .o. fixZ .o.
     cedilleC .o. 
     circA .o. umlautA .o.
-    aiguE .o. graveA .o. graveE .o. graveI .o. 
+    aiguE .o. graveA .o. graveE .o. umlautE .o. graveI .o. graveO .o. graveU .o.
     regU .o. fixU .o. 
     AU .o. AI .o.
-    regE .o. RE .o. fixE .o.
+    regE .o. RE .o. fixE .o. regO .o. fixT .o.
     ExFix;
 
 regex G2P;
