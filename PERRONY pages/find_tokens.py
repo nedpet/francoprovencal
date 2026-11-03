@@ -44,8 +44,18 @@ def load_eaf_words(chapter: int) -> tuple[list[tuple[int, int, str]], dict[str, 
         first_index.setdefault(value, i)
     return annotations, first_index
 
+# turns one space at the front or back of the regex into a word boundary, so " illi" matches words starting
+# with illi and "illi " matches words ending with it, without the match running into the neighbouring word
+def word_boundary_regex(regex: str) -> str:
+    if regex.startswith(" "):
+        regex = r"(?<!\S)" + regex[1:]
+    if regex.endswith(" ") and not regex.endswith("\\ "):
+        regex = regex[:-1] + r"(?!\S)"
+    return regex
+
 # yields each word in this line that contains a match
 def matched_words(line: str, regex: str):
+    regex = word_boundary_regex(regex)
     match = re.search(regex, line)
     while line != "" and match is not None:
         word, new_start = identify_word(line, match)
