@@ -80,6 +80,11 @@ def skip_to_chapter(f, chapter: int):
 
 def split_chapters(start_chapter: int, end_chapter: int):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists("raw"):
+        os.mkdir("raw")
+    if not os.path.exists("stripped"):
+        os.mkdir("stripped")
+
     num = start_chapter
     for i in range(start_chapter, end_chapter + 1, 1):
         open(f"raw/chapter{i}.txt", "w", encoding="utf-8-sig").close()
