@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ANNOTATION_DOCUMENT AUTHOR="pympi" DATE="2026-05-12T09:51:19-05:00"
+<ANNOTATION_DOCUMENT AUTHOR="pympi" DATE="2026-11-03T02:53:29-05:00"
     FORMAT="3.0" VERSION="3.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv3.0.xsd">
     <HEADER MEDIA_FILE="" TIME_UNITS="milliseconds">
         <MEDIA_DESCRIPTOR
-            MEDIA_URL="file:///C:/Users/jerem/OneDrive - University of Toronto/SiR/francoprovencal/PERRONY pages/aligned_audios/chapter2.mp3"
-            MIME_TYPE="audio/*" RELATIVE_MEDIA_URL="./chapter2.mp3"/>
+            MEDIA_URL="file:///C:/Users/jerem/OneDrive - University of Toronto/HLVC/francoprovencal/PERRONY pages/audios/chapter2.mp3" MIME_TYPE="audio/*"/>
         <PROPERTY NAME="lastUsedAnnotation">0</PROPERTY>
         <PROPERTY NAME="URN">urn:nl-mpi-tools-elan-eaf:f051aad3-0ac6-451b-a333-882835edb6ea</PROPERTY>
         <PROPERTY NAME="lastUsedAnnotationId">2722</PROPERTY>
@@ -5919,7 +5918,7 @@
             </ALIGNABLE_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="Orthographic Word">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="Word">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a80"
                 TIME_SLOT_REF1="ts2" TIME_SLOT_REF2="ts3">
@@ -21761,30 +21760,10 @@
             </ALIGNABLE_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER ANNOTATOR="JMT" DEFAULT_LOCALE="ipa-96"
-        LINGUISTIC_TYPE_REF="Transcription"
-        PARENT_REF="Orthographic Word" TIER_ID="Phonetic Word">
-        <ANNOTATION>
-            <REF_ANNOTATION ANNOTATION_ID="a2722" ANNOTATION_REF="a398">
-                <ANNOTATION_VALUE/>
-            </REF_ANNOTATION>
-        </ANNOTATION>
-        <ANNOTATION>
-            <REF_ANNOTATION ANNOTATION_ID="a2721" ANNOTATION_REF="a1040">
-                <ANNOTATION_VALUE>kanavezã</ANNOTATION_VALUE>
-            </REF_ANNOTATION>
-        </ANNOTATION>
-        <ANNOTATION>
-            <REF_ANNOTATION ANNOTATION_ID="a2720" ANNOTATION_REF="a1720">
-                <ANNOTATION_VALUE>frɔʒin</ANNOTATION_VALUE>
-            </REF_ANNOTATION>
-        </ANNOTATION>
-    </TIER>
     <LINGUISTIC_TYPE GRAPHIC_REFERENCES="false"
         LINGUISTIC_TYPE_ID="default-lt" TIME_ALIGNABLE="true"/>
     <LINGUISTIC_TYPE CONSTRAINTS="Symbolic_Association"
         GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="Transcription" TIME_ALIGNABLE="false"/>
-    <LOCALE LANGUAGE_CODE="ipa-96" VARIANT="SAMPA"/>
     <CONSTRAINT
         DESCRIPTION="Time subdivision of parent annotation's time interval, no time gaps allowed within this interval" STEREOTYPE="Time_Subdivision"/>
     <CONSTRAINT
