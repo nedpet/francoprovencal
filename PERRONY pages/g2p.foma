@@ -35,6 +35,9 @@ define CH           c h -> ʃ ;
 # 'ç' -> /s/
 define cedilleC     ç -> S ;
 
+# 'd' -> /∅/ word-finally
+define finalD       d -> 0 || _ WB ;
+
 # 'g' -> /ʒ/ before i, e
 define softG        g -> ʒ || _ highfrontV ;
 
@@ -254,7 +257,7 @@ define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o.
     EU .o. OE .o. 
     finalX .o. regX .o. 
     softG .o. hardC .o. silentH .o. vowelH .o. 
-    TEL .o. ET .o. finalT .o. finalZ .o. fixZ .o.
+    TEL .o. ET .o. finalT .o. finalZ .o. fixZ .o. finalD .o. 
     cedilleC .o. 
     circA .o. umlautA .o.
     aiguE .o. graveA .o. graveE .o. umlautE .o. graveI .o. graveO .o. graveU .o.
