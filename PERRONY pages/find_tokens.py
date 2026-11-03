@@ -99,6 +99,10 @@ class App(tk.Tk):
         self.home = self.build_home(regex, exclude_propers, buffer)
         self.word_screen = self.build_word_screen()
         self.home.pack(fill="both", expand=True)
+        self.bind("<space>", lambda e: self.hotkey(self.play_button))
+        self.bind("<Tab>", lambda e: self.hotkey(self.next_button))
+        self.bind("<Shift-Tab>", lambda e: self.hotkey(self.prev_button))
+        self.bind("<ISO_Left_Tab>", lambda e: self.hotkey(self.prev_button))
 
     def build_home(self, regex: str, exclude_propers: bool, buffer: float) -> tk.Frame:
         frame = tk.Frame(self, padx=20, pady=20)
@@ -124,9 +128,9 @@ class App(tk.Tk):
         frame = tk.Frame(self, padx=20, pady=20)
         nav = tk.Frame(frame)
         nav.pack(side="bottom", fill="x")
-        self.prev_button = tk.Button(nav, text="Previous", command=lambda: self.move(-1))
+        self.prev_button = tk.Button(nav, text="Previous (Shift+Tab)", command=lambda: self.move(-1))
         self.prev_button.pack(side="left")
-        self.next_button = tk.Button(nav, text="Next", command=lambda: self.move(1))
+        self.next_button = tk.Button(nav, text="Next (Tab)", command=lambda: self.move(1))
         self.next_button.pack(side="left", padx=5)
         tk.Button(nav, text="Finish", command=self.finish).pack(side="right")
 
@@ -142,7 +146,7 @@ class App(tk.Tk):
 
         self.info_label = tk.Label(frame)
         self.info_label.pack()
-        self.play_button = tk.Button(frame, text="▶ Play", command=self.play)
+        self.play_button = tk.Button(frame, text="▶ Play (Space)", command=self.play)
         self.play_button.pack(pady=10)
         return frame
 
@@ -174,6 +178,7 @@ class App(tk.Tk):
         self.index = 0
         self.home.pack_forget()
         self.word_screen.pack(fill="both", expand=True)
+        self.word_screen.focus_set()
         self.show_word()
 
     # cuts every found word's clip into a temp folder, updating the progress bar as it goes
@@ -206,6 +211,12 @@ class App(tk.Tk):
         self.play_button.config(state="normal" if clip else "disabled")
         self.prev_button.config(state="normal" if self.index > 0 else "disabled")
         self.next_button.config(state="normal" if self.index < len(self.found_words) - 1 else "disabled")
+
+    # presses this word screen button from its hotkey, stopping the key from doing anything else
+    def hotkey(self, button: tk.Button):
+        if self.word_screen.winfo_ismapped():
+            button.invoke()
+            return "break"
 
     def move(self, step: int):
         self.index += step
