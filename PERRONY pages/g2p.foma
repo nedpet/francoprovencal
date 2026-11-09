@@ -8,7 +8,15 @@ define WB   [ .#. | " " ] ;
 
 define highfrontV    [ e | i | é | è | ë | ì | ɛ | ø ] ;
 
-define Sonor    [ n | m | ɲ | ʁ | l | ʎ | j ] ;
+define Sonor    [ Liquid | Nasal ] ;
+
+define Liquid   [ l | r | ʁ | ʎ ] ;
+
+define Nasal    [ n | m | ɲ ] ;
+
+define Obs      [ Fric | Stop ] ;
+
+define Fric     [ f | v | s | z | ʃ | ʒ ] ;
 
 define Stop     [ b | p | t | d | k | g ] ;
 
@@ -143,7 +151,7 @@ define AIN          a i  -> ɛ || _ n ;
 define AU           a u -> o ;
 
 # 'e' -> /ɛ/ in closed syllables 
-define regE         e -> ɛ || _ [ C WB | Sonor C | s C | Stop Stop ] ;
+define regE         e -> ɛ || _ [ C WB | Sonor C | C Obs | Obs Nasal ] ;
 
 # 'é' -> /e/ 
 define aiguE        é -> E ;
@@ -172,7 +180,7 @@ define graveI       ì -> i ;
 define TRO          o -> ə || t r _ WB ;
 
 # 'o' -> /ɔ/ in closed syllables 
-define regO         o -> ɔ || _ [ C WB | Sonor C | s C | Stop Stop ] ;
+define regO         o -> ɔ || _ [ C WB | Sonor C | C Obs | Obs Nasal ] ;
 
 # 'ò' -> /o/
 define graveO       ò -> o ;
