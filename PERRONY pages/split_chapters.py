@@ -58,7 +58,8 @@ def fr_to_fp(num: str):
 
 def process_line(line: str, strip_punc: bool) -> str:
     if strip_punc:
-        line = ''.join(c for c in line if c.isalnum() or c in [" ", "\n", "\t"])
+        line = ''.join(c for c in line if c.isalnum() or c in [" ", "\n", "\t", "’"])
+    line = line.replace("’", " ")
     i = 0
     while i < len(line):
         if line[i].isdigit():
