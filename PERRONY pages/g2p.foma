@@ -253,8 +253,9 @@ define LLI          l l i -> ʎ ;
 # 'ILL' -> /ʎ/ after a vowel, /il/ otherwise
 define ILL          i l l -> ʎ || V _ ;
 
-# 'ILLI' -> /ʎ/ after a vowel, /iʎ/ otherwise
-define ILLI         i l l i -> ʎ || V _ ;
+# 'ILLI' -> /ʎi/ between V and C, /ʎ/ between V and V, /iʎ/ otherwise
+define ILLIC        i l l i -> ʎ i || V _ C ;
+define ILLIV        i l l i -> ʎ || V _ V ;
 
 # 'DIES' -> /dʒez/
 define DIES         d i e s -> d ʒ e z ;
@@ -273,7 +274,7 @@ define ExFix [ "EX_aveir" -> a v e j || WB _ WB .o. "EX_hiver" -> i v i ʁ || WB
 
 define G2P ExMap .o. TRO .o. AVE .o. AVE2 .o. POUS .o. DIES .o. 
     CC .o. VV .o. TT .o. PH .o. PP .o. BB .o. MM .o. 
-    ILLI .o. LLI .o. ILL .o. 
+    ILLIC .o. ILLIV .o. LLI .o. ILL .o. 
     GN .o. GU .o. QU .o. Q .o. 
     J .o. adjustOU .o. UY .o. fixOU .o. regY .o. HU .o. HUC .o.
     SS .o. CI .o. softC .o. liaisonS .o. intervocalS .o. IERS .o. finalS .o. fixS .o.
