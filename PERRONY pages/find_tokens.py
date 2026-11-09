@@ -33,16 +33,16 @@ def identify_word(line: str, match) -> tuple[str, int]:
         start -= 1
     return line[start:end], end
 
-# returns this chapter's eaf words (start, end, value) in time order, and a map from each word to the index of its first occurrence
+# returns this chapter's eaf words (start, end, value) in time order, and a map from each word to the indices of its occurrences
 # cached so each eaf is only loaded once, the first time it's needed
 @functools.cache
-def load_eaf_words(chapter: int) -> tuple[list[tuple[int, int, str]], dict[str, int]]:
+def load_eaf_words(chapter: int) -> tuple[list[tuple[int, int, str]], dict[str, list[int]]]:
     eaf = pympi.Elan.Eaf(f'aligned_audios/chapter{chapter}.eaf')
     annotations = sorted(eaf.get_annotation_data_for_tier("Word"))
-    first_index = {}
+    occurrences = {}
     for i, (_, _, value) in enumerate(annotations):
-        first_index.setdefault(value, i)
-    return annotations, first_index
+        occurrences.setdefault(value, []).append(i)
+    return annotations, occurrences
 
 # turns one space at the front or back of the regex into a word boundary, so " illi" matches words starting
 # with illi and "illi " matches words ending with it, without the match running into the neighbouring word
@@ -64,14 +64,17 @@ def matched_words(line: str, regex: str):
         match = re.search(regex, line)
 
 # adds matches in this line to the found set, stopping once it holds limit words
-def process_line(chapter: int, line: str, regex: str, found: list[FoundWord], exclude_propers: bool, limit: int):
+def process_line(chapter: int, line: str, regex: str, found: list[FoundWord], exclude_propers: bool, allow_duplicates: bool, limit: int):
     for word in matched_words(line, regex):
         if len(found) >= limit:
             break
-        if word not in [foundword.word for foundword in found] and (not exclude_propers or word[0].islower()):
-            annotations, first_index = load_eaf_words(chapter)
-            i = first_index.get(word)
-            if i is not None:
+        if (allow_duplicates or word not in [foundword.word for foundword in found]) and (not exclude_propers or word[0].islower()):
+            annotations, occurrences = load_eaf_words(chapter)
+            # the nth time a word is found in this chapter's text is its nth occurrence in the eaf
+            n = sum(1 for foundword in found if foundword.word == word and foundword.chapter == chapter)
+            indices = occurrences.get(word, [])
+            if n < len(indices):
+                i = indices[n]
                 start, end, _ = annotations[i]
                 before = " ".join(value for _, _, value in annotations[max(0, i - CONTEXT_WORDS):i])
                 after = " ".join(value for _, _, value in annotations[i + 1:i + 1 + CONTEXT_WORDS])
@@ -79,27 +82,27 @@ def process_line(chapter: int, line: str, regex: str, found: list[FoundWord], ex
                 found.append(found_word)
 
 # adds the set of matches in this chapter to found words, stopping once it holds limit words
-def process_chapter(num: int, regex: str, exclude_propers: bool, found_words: list[FoundWord], limit: int):
+def process_chapter(num: int, regex: str, exclude_propers: bool, allow_duplicates: bool, found_words: list[FoundWord], limit: int):
     if num in MISSING_CHAPTERS:
         return
     with open(f"stripped/chapter{num}.txt", "r", encoding="utf-8-sig") as f:
         line = f.readline()
         while (line != "" and len(found_words) < limit):
-            process_line(num, line, regex, found_words, exclude_propers, limit)
+            process_line(num, line, regex, found_words, exclude_propers, allow_duplicates, limit)
             line = f.readline()
 
 # returns the first limit matching words across every chapter
 # should_stop is checked before each chapter, and ends the search early if it returns True
-def find_words(regex: str, exclude_propers: bool, limit: int, should_stop=lambda: False) -> list[FoundWord]:
+def find_words(regex: str, exclude_propers: bool, allow_duplicates: bool, limit: int, should_stop=lambda: False) -> list[FoundWord]:
     found_words = []
     for i in range(CHAPTER_START, CHAPTER_END + 1):
         if len(found_words) >= limit or should_stop():
             break
-        process_chapter(i, regex, exclude_propers, found_words, limit)
+        process_chapter(i, regex, exclude_propers, allow_duplicates, found_words, limit)
     return found_words
 
 # returns the matching words in each missing chapter (which have no eaf) that aren't already in found_words
-def find_missing_chapter_words(regex: str, exclude_propers: bool, found_words: list[FoundWord]) -> dict[int, list[str]]:
+def find_missing_chapter_words(regex: str, exclude_propers: bool, allow_duplicates: bool, found_words: list[FoundWord]) -> dict[int, list[str]]:
     seen = {foundword.word for foundword in found_words}
     missing_words = {}
     for num in MISSING_CHAPTERS:
@@ -107,7 +110,7 @@ def find_missing_chapter_words(regex: str, exclude_propers: bool, found_words: l
         with open(f"stripped/chapter{num}.txt", "r", encoding="utf-8-sig") as f:
             for line in f:
                 for word in matched_words(line, regex):
-                    if word not in seen and (not exclude_propers or word[0].islower()):
+                    if (allow_duplicates or word not in seen) and (not exclude_propers or word[0].islower()):
                         seen.add(word)
                         missing_words[num].append(word)
     return missing_words
@@ -120,10 +123,10 @@ def extract_clip(word: FoundWord, buffer: float, out_path: str):
                     "-i", f"audios/chapter{word.chapter}.mp3", out_path], check=True)
 
 class App(tk.Tk):
-    def __init__(self, regex: str, exclude_propers: bool, buffer: float, limit: int):
+    def __init__(self, regex: str, exclude_propers: bool, allow_duplicates: bool, buffer: float, limit: int):
         super().__init__()
         self.title("Find tokens")
-        self.geometry("750x300")
+        self.geometry("750x340")
         self.found_words = []
         self.index = 0
         self.buffer = buffer
@@ -132,7 +135,7 @@ class App(tk.Tk):
         self.player = None
         self.cancelled = False
         self.missing_words = {}
-        self.home =self.build_home(regex, exclude_propers, buffer, limit)
+        self.home =self.build_home(regex, exclude_propers, allow_duplicates, buffer, limit)
         self.word_screen = self.build_word_screen()
         self.home.pack(fill="both", expand=True)
         self.bind("<space>", lambda e: self.hotkey(self.play_button) or self.hotkey(self.run_button))
@@ -141,33 +144,36 @@ class App(tk.Tk):
         self.bind("<ISO_Left_Tab>", lambda e: self.hotkey(self.prev_button))
         self.bind("<Escape>", lambda e: self.hotkey(self.finish_button))
 
-    def build_home(self, regex: str, exclude_propers: bool, buffer: float, limit: int) -> tk.Frame:
+    def build_home(self, regex: str, exclude_propers: bool, allow_duplicates: bool, buffer: float, limit: int) -> tk.Frame:
         frame = tk.Frame(self, padx=20, pady=20)
         self.regex_var = tk.StringVar(value=regex)
         self.propers_var = tk.BooleanVar(value=exclude_propers)
+        self.duplicates_var = tk.BooleanVar(value=allow_duplicates)
         self.buffer_var = tk.StringVar(value=str(buffer))
         self.limit_var = tk.StringVar(value=str(limit))
         tk.Label(frame, text="Regex").grid(row=0, column=0, sticky="w")
         tk.Entry(frame, textvariable=self.regex_var, width=30).grid(row=0, column=1, pady=5)
         tk.Label(frame, text="Exclude proper nouns").grid(row=1, column=0, sticky="w")
         tk.Checkbutton(frame, variable=self.propers_var, takefocus=0).grid(row=1, column=1, sticky="w", pady=5)
-        tk.Label(frame, text="Buffer (seconds)").grid(row=2, column=0, sticky="w")
-        tk.Entry(frame, textvariable=self.buffer_var, width=30).grid(row=2, column=1, pady=5)
-        tk.Label(frame, text="Max matches").grid(row=3, column=0, sticky="w")
-        tk.Entry(frame, textvariable=self.limit_var, width=30).grid(row=3, column=1, pady=5)
+        tk.Label(frame, text="Allow duplicates").grid(row=2, column=0, sticky="w")
+        tk.Checkbutton(frame, variable=self.duplicates_var, takefocus=0).grid(row=2, column=1, sticky="w", pady=5)
+        tk.Label(frame, text="Buffer (seconds)").grid(row=3, column=0, sticky="w")
+        tk.Entry(frame, textvariable=self.buffer_var, width=30).grid(row=3, column=1, pady=5)
+        tk.Label(frame, text="Max matches").grid(row=4, column=0, sticky="w")
+        tk.Entry(frame, textvariable=self.limit_var, width=30).grid(row=4, column=1, pady=5)
         # clicking outside the fields takes focus out of them, so space can run
         frame.bind("<Button-1>", lambda e: frame.focus_set())
         buttons = tk.Frame(frame)
-        buttons.grid(row=4, column=0, columnspan=2, pady=15)
+        buttons.grid(row=5, column=0, columnspan=2, pady=15)
         self.run_button = tk.Button(buttons, text="Run", command=self.run)
         self.run_button.pack(side="left")
         self.cancel_button = tk.Button(buttons, text="Cancel", command=self.cancel, state="disabled")
         self.cancel_button.pack(side="left", padx=5)
         self.progress = ttk.Progressbar(frame, length=300)
-        self.progress.grid(row=5, column=0, columnspan=2)
+        self.progress.grid(row=6, column=0, columnspan=2)
         self.progress.grid_remove()
         self.status_label = tk.Label(frame)
-        self.status_label.grid(row=6, column=0, columnspan=2)
+        self.status_label.grid(row=7, column=0, columnspan=2)
         return frame
 
     def build_word_screen(self) -> tk.Frame:
@@ -230,9 +236,9 @@ class App(tk.Tk):
         self.cancel_button.config(state="normal")
         self.config(cursor="watch")
         self.status_label.config(text="Searching...")
-        self.found_words = find_words(regex, self.propers_var.get(), limit, self.poll_cancel)
+        self.found_words = find_words(regex, self.propers_var.get(), self.duplicates_var.get(), limit, self.poll_cancel)
         if not self.cancelled:
-            self.missing_words = find_missing_chapter_words(regex, self.propers_var.get(), self.found_words)
+            self.missing_words = find_missing_chapter_words(regex, self.propers_var.get(), self.duplicates_var.get(), self.found_words)
         self.config(cursor="")
         if self.found_words and not self.cancelled:
             self.load_clips()
@@ -334,13 +340,14 @@ class App(tk.Tk):
         self.word_screen.pack_forget()
         self.home.pack(fill="both", expand=True)
 
-def main(regex: str, exclude_propers: bool, buffer: float, limit: int):
+def main(regex: str, exclude_propers: bool, allow_duplicates: bool, buffer: float, limit: int):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    App(regex, exclude_propers, buffer, limit).mainloop()
+    App(regex, exclude_propers, allow_duplicates, buffer, limit).mainloop()
 
 if __name__ == "__main__":
     regex = r'[^aeouàâäéèì]illi'
     exclude_propers = False
+    allow_duplicates = False
     buffer = 0.5
     limit = 50
-    main(regex, exclude_propers, buffer, limit)
+    main(regex, exclude_propers, allow_duplicates, buffer, limit)
